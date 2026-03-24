@@ -1,0 +1,39 @@
+{
+  "productName": "ProctorShield Secure Exam",
+  "version": "1.0.0",
+  "identifier": "com.proctorshield.secure",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "https://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "ProctorShield Secure Environment",
+        "width": 1000,
+        "height": 700,
+        "resizable": false,
+        "fullscreen": false,
+        "center": true,
+        "decorations": true,
+        "additionalBrowserArgs": "--ignore-certificate-errors"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' ws://localhost:7880 http://localhost:7880 ws://127.0.0.1:7880 http://127.0.0.1:8000 http://localhost:8000; img-src 'self' data: blob: http://127.0.0.1:8000 http://localhost:8000 https://api.dicebear.com; media-src 'self' blob: mediastream:;"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

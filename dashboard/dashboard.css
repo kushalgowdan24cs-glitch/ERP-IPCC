@@ -1,0 +1,169 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #f1f5f9;
+  min-height: 100vh;
+}
+
+header {
+  background: #1e293b;
+  padding: 16px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+header h1 { font-size: 1.3rem; }
+
+#connection-status {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.connected { background: rgba(34,197,94,0.2); color: #22c55e; }
+.disconnected { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+main { padding: 20px 30px; }
+
+/* Stats Bar */
+#stats-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 20px 30px;
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value { font-size: 2rem; font-weight: 700; }
+.stat-label { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+
+/* Sessions Grid */
+#sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.session-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #22c55e;
+  transition: border-color 0.3s;
+}
+
+.session-card.risk-YELLOW { border-left-color: #f59e0b; }
+.session-card.risk-ORANGE { border-left-color: #f97316; }
+.session-card.risk-RED { border-left-color: #ef4444; }
+
+.session-card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.session-card .student-name { font-weight: 700; font-size: 1.1rem; }
+
+.session-card .risk-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.risk-badge.GREEN { background: rgba(34,197,94,0.2); color: #22c55e; }
+.risk-badge.YELLOW { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.risk-badge.ORANGE { background: rgba(249,115,22,0.2); color: #f97316; }
+.risk-badge.RED { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+.session-card .info {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.session-card .flags-preview {
+  max-height: 100px;
+  overflow-y: auto;
+  margin: 8px 0;
+}
+
+.flag-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.flag-item .severity-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.severity-CRITICAL { background: #ef4444; }
+.severity-HIGH { background: #f97316; }
+.severity-MEDIUM { background: #f59e0b; }
+.severity-LOW { background: #94a3b8; }
+
+.session-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.session-actions button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-warn { background: #f59e0b; color: #000; }
+.btn-terminate { background: #ef4444; color: #fff; }
+
+/* Event Log */
+#event-log {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+#event-log h2 { font-size: 1.1rem; margin-bottom: 12px; }
+
+#log-entries {
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.log-entry {
+  padding: 6px 0;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  gap: 12px;
+}
+
+.log-time { color: #64748b; min-width: 80px; }
+.log-session { color: #3b82f6; min-width: 100px; }
+.log-message { color: #f1f5f9; }
+.log-entry.critical .log-message { color: #ef4444; font-weight: 700; }
+.log-entry.high .log-message { color: #f97316; }

@@ -1,0 +1,982 @@
+INFO:     Started server process [15736]
+INFO:     Waiting for application startup.
+14:59:34 | proctorshield            | INFO    | ==================================================
+14:59:34 | proctorshield            | INFO    |   ProctorShield v1.0.0
+14:59:34 | proctorshield            | INFO    | ==================================================
+14:59:34 | proctorshield            | INFO    | Initializing database...
+14:59:34 | proctorshield            | INFO    |   Database ready
+14:59:34 | proctorshield            | INFO    | Loading AI models...
+14:59:34 | ai_engine                | INFO    | Loading AI models...
+14:59:58 | ai_engine.face           | INFO    | Initializing ProctorEngine (InsightFace)...
+15:00:10 | ai_engine.face           | INFO    | InsightFace model loaded successfully.
+15:00:10 | ai_engine                | INFO    |   Face Verifier loaded
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: C:\Users\Divyansh/.insightface\models\buffalo_l\1k3d68.onnx landmark_3d_68 ['None', 3, 192, 192] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: C:\Users\Divyansh/.insightface\models\buffalo_l\2d106det.onnx landmark_2d_106 ['None', 3, 192, 192] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: C:\Users\Divyansh/.insightface\models\buffalo_l\det_10g.onnx detection [1, 3, '?', '?'] 127.5 128.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: C:\Users\Divyansh/.insightface\models\buffalo_l\genderage.onnx genderage ['None', 3, 96, 96] 0.0 1.0
+Applied providers: ['CPUExecutionProvider'], with options: {'CPUExecutionProvider': {}}
+find model: C:\Users\Divyansh/.insightface\models\buffalo_l\w600k_r50.onnx recognition ['None', 3, 112, 112] 127.5 127.5
+set det-size: (640, 640)
+YOLOv8n summary (fused): 72 layers, 3,151,904 parameters, 0 gradients, 8.7 GFLOPs
+15:00:11 | ai_engine                | INFO    |   Object Detector loaded
+15:00:14 | ai_engine.gaze           | WARNING | MediaPipe not available: module 'mediapipe' has no attribute 'solutions'
+15:00:14 | ai_engine.gaze           | WARNING | Gaze tracking will use OpenCV cascade fallback
+15:00:14 | ai_engine                | INFO    |   Gaze Tracker loaded
+Using cache found in C:\Users\Divyansh/.cache\torch\hub\snakers4_silero-vad_master
+15:00:15 | ai_engine.audio          | INFO    | Silero VAD loaded successfully
+15:00:21 | ai_engine.audio          | INFO    | \U0001f399\ufe0f Wav2Vec2 Speaker Verification loaded successfully
+15:00:21 | ai_engine                | INFO    |   Audio Monitor loaded
+15:00:21 | ai_engine                | INFO    |   Risk Scorer loaded
+15:00:21 | ai_engine                | INFO    | All AI models loaded successfully.
+15:00:21 | proctorshield            | INFO    | ==================================================
+15:00:21 | proctorshield            | INFO    |   Server running on http://0.0.0.0:8000
+15:00:21 | proctorshield            | INFO    |   Dashboard:  http://localhost:8000/dashboard/
+15:00:21 | proctorshield            | INFO    |   History:    http://localhost:8000/api/v1/history
+15:00:21 | proctorshield            | INFO    | ==================================================
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:53682 - "WebSocket /ws/dashboard" [accepted]
+15:00:21 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+15:00:21 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:60969 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55860 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64974 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61038 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59715 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60112 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53577 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64240 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49476 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57215 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52527 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49392 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55330 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57085 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49783 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53164 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55651 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58093 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62707 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59279 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51731 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55972 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51625 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61571 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55047 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52908 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63860 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51084 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51084 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56258 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49843 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53280 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63988 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58386 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64350 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58860 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64906 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63224 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49486 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49969 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55290 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64694 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60584 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56738 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63247 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57094 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50330 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54417 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50202 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53726 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58967 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61013 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60163 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60163 - "GET /openapi.json HTTP/1.1" 200 OK
+C:\Users\Divyansh\proctorshield\backend\venv\Lib\site-packages\insightface\utils\face_align.py:23: FutureWarning: `estimate` is deprecated since version 0.26 and will be removed in version 2.2. Please use `SimilarityTransform.from_estimate` class constructor instead.
+  tform.estimate(lmk, dst)
+15:49:48 | sessions                 | INFO    | \u2705 ERP face embedding loaded for STU001
+INFO:     127.0.0.1:61683 - "POST /api/v1/sessions/mock/create-test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59759 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62845 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59302 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56348 - "WebSocket /ws/proctor/P2UGZ0" [accepted]
+15:52:39 | proctoring.ws            | INFO    | Student connected: Divyansh Rai (code: P2UGZ0)
+INFO:     connection open
+15:52:59 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.639 for Divyansh Rai
+15:52:59 | evidence                 | INFO    | Evidence saved: C:\Users\Divyansh\proctorshield\backend\evidence\4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0\102259_IDENTITY_VERIFIED.jpg
+INFO:     127.0.0.1:64873 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57531 - "GET /dashboard/ HTTP/1.1" 304 Not Modified
+15:53:20 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+15:53:20 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:57531 - "GET /dashboard/dashboard.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55645 - "GET /dashboard/dashboard.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55645 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:53:21 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+INFO:     127.0.0.1:54870 - "WebSocket /ws/dashboard" [accepted]
+15:53:21 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+15:53:21 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+15:53:24 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.3s)
+15:53:24 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:53:25 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.4s)
+15:53:25 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.5s)
+15:53:25 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+15:53:25 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.5s)
+15:53:32 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:53:33 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.1s)
+15:53:33 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.6s)
+15:53:33 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.7s)
+15:53:33 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.2s)
+15:53:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.3s)
+15:53:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.9s)
+15:53:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.9s)
+15:53:38 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:53:40 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.3s)
+15:53:40 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.2s)
+15:53:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.3s)
+15:53:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.1s)
+15:53:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.2s)
+15:53:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.5s)
+15:53:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.6s)
+INFO:     127.0.0.1:59547 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59548 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54813 - "WebSocket /ws/dashboard" [accepted]
+15:53:41 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+15:53:41 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:62450 - "WebSocket /ws/dashboard" [accepted]
+15:53:44 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+15:53:44 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+15:53:46 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.6s)
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.9s)
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.0s)
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.4s)
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+15:53:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.6s)
+INFO:     127.0.0.1:60572 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:53:52 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:53:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.6s)
+15:53:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.9s)
+15:53:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.9s)
+15:53:58 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:53:59 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.8s)
+15:53:59 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.1s)
+15:54:00 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.3s)
+15:54:00 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.2s)
+15:54:00 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:00 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+15:54:00 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.7s)
+15:54:03 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:54:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.4s)
+15:54:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.2s)
+15:54:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.3s)
+15:54:06 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:08 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['NO_FACE_DETECTED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.9s)
+15:54:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.9s)
+INFO:     127.0.0.1:62452 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:54:11 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:13 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:13 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.1s)
+15:54:13 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.0s)
+15:54:13 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.1s)
+15:54:13 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:14 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:16 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.1s)
+15:54:19 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:20 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:20 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.3s)
+15:54:20 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.1s)
+15:54:21 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.3s)
+15:54:21 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.3s)
+15:54:21 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.4s)
+INFO:     127.0.0.1:64340 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:54:22 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:24 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:24 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.9s)
+15:54:24 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.7s)
+15:54:26 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:27 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.6s)
+15:54:29 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:31 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:31 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.5s)
+15:54:31 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+15:54:31 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.5s)
+15:54:32 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+15:54:35 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:35 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.9s)
+15:54:35 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.6s)
+15:54:35 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.9s)
+15:54:35 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:39 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:54:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.6s)
+15:54:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.8s)
+15:54:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.0s)
+15:54:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.5s)
+15:54:41 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.6s)
+INFO:     127.0.0.1:57356 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:54:46 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:54:47 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.1s)
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.0s)
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.2s)
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.2s)
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+15:54:48 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.8s)
+INFO:     127.0.0.1:51491 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:54:53 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:54:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.4s)
+15:54:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.7s)
+15:54:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.8s)
+15:54:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.0s)
+15:54:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.1s)
+15:55:00 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=1
+15:55:03 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['GAZE_AWAY_SUSTAINED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.3s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.5s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.6s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.2s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.4s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.6s)
+15:55:03 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.7s)
+15:55:03 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:07 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=1
+15:55:09 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['GAZE_AWAY_SUSTAINED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.6s)
+15:55:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.0s)
+15:55:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.1s)
+15:55:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.1s)
+15:55:10 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.7s)
+15:55:10 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+INFO:     127.0.0.1:55118 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:55:14 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.3s)
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.5s)
+15:55:16 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.6s)
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.5s)
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.6s)
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.1s)
+15:55:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.1s)
+15:55:20 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+INFO:     127.0.0.1:59268 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+15:55:22 | proctoring.ws            | INFO    | \U0001f4e6 OBJ DETECT: persons=2, objects=2, flags=['MULTIPLE_PERSONS_IN_FRAME']
+15:55:22 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['MULTIPLE_PERSONS_IN_FRAME'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.7s)
+15:55:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.5s)
+15:55:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.6s)
+15:55:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.8s)
+15:55:28 | proctoring.ws            | INFO    | \U0001f399\ufe0f Voice Identity check: similarity=0.831 for Divyansh Rai
+15:55:28 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['SPEECH_DETECTED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:23:15.557425
+15:55:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.7s)
+15:55:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.8s)
+15:55:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.3s)
+15:55:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.6s)
+15:55:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.1s)
+15:55:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.3s)
+INFO:     connection closed
+15:55:32 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+15:55:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.5s)
+15:55:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.4s)
+15:55:34 | proctoring.ws            | INFO    | Disconnected: Divyansh Rai
+INFO:     127.0.0.1:56398 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56399 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/secondary HTTP/1.1" 404 Not Found
+15:55:36 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+15:55:36 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+15:55:36 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+15:55:36 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:56021 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54220 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49618 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59580 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64868 - "WebSocket /ws/dashboard" [accepted]
+15:59:15 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+15:59:15 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:63954 - "WebSocket /ws/dashboard" [accepted]
+15:59:21 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+15:59:21 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+15:59:32 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+15:59:32 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+15:59:32 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+15:59:32 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:53329 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61895 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61896 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56181 - "WebSocket /ws/dashboard" [accepted]
+15:59:33 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+15:59:33 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:54152 - "WebSocket /ws/dashboard" [accepted]
+15:59:36 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+15:59:36 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:54952 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62251 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62785 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51505 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57024 - "WebSocket /ws/proctor/P2UGZ0" [accepted]
+16:00:38 | proctoring.ws            | INFO    | Student connected: Divyansh Rai (code: P2UGZ0)
+INFO:     connection open
+16:00:45 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.658 for Divyansh Rai
+16:00:45 | evidence                 | INFO    | Evidence saved: C:\Users\Divyansh\proctorshield\backend\evidence\4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0\103045_IDENTITY_VERIFIED.jpg
+INFO:     127.0.0.1:51504 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:00:56 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+16:00:56 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+16:00:56 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+16:00:56 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:54892 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56375 - "WebSocket /ws/dashboard" [accepted]
+16:00:57 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+16:00:57 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:56376 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51660 - "WebSocket /ws/dashboard" [accepted]
+16:01:00 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+16:01:00 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+16:01:07 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=True | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:01:07 | proctoring.ws            | WARNING | \u26a0\ufe0f ALL 1 FLAGS DROPPED! grace=True, cooldowns={'TAB_SWITCH_OR_MINIMIZE': 1773225067.527695}
+16:01:11 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+16:01:11 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+16:01:11 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+16:01:11 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+16:01:12 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+16:01:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.7s)
+16:01:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.4s)
+16:01:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.6s)
+16:01:16 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.6s)
+16:01:17 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.7s)
+16:01:17 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.1s)
+16:01:17 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.2s)
+16:01:22 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+16:01:23 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.5s)
+16:01:23 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.4s)
+16:01:23 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.5s)
+16:01:23 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+16:01:23 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.5s)
+16:01:27 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+INFO:     127.0.0.1:51870 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51871 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60996 - "WebSocket /ws/dashboard" [accepted]
+16:01:28 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+16:01:28 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+16:01:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.4s)
+16:01:29 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:01:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.4s)
+16:01:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.5s)
+16:01:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.8s)
+16:01:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.9s)
+INFO:     127.0.0.1:65116 - "WebSocket /ws/dashboard" [accepted]
+16:01:31 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+16:01:31 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+16:01:34 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+16:01:36 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.6s)
+16:01:36 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.3s)
+16:01:36 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.4s)
+16:01:36 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.8s)
+16:01:37 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.0s)
+16:01:37 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.8s)
+16:01:43 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+16:01:45 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.8s)
+16:01:45 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.7s)
+16:01:45 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.8s)
+16:01:45 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.8s)
+16:01:46 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.8s)
+16:01:46 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.6s)
+16:01:46 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.6s)
+16:01:50 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.4s)
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 8.2s)
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.2s)
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.3s)
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.3s)
+16:01:54 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.8s)
+16:01:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.9s)
+16:01:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.9s)
+16:01:55 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.0s)
+INFO:     127.0.0.1:65118 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:01:58 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+16:01:58 | proctoring.ws            | INFO    | Admin dashboard disconnected
+16:01:58 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+16:01:58 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:59489 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52805 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:01:59 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=None, face_flags=2
+INFO:     127.0.0.1:60862 - "WebSocket /ws/dashboard" [accepted]
+16:01:59 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+16:01:59 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:63895 - "WebSocket /ws/dashboard" [accepted]
+16:02:03 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+16:02:03 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+16:02:03 | proctoring.ws            | INFO    | \U0001f4e6 OBJ DETECT: persons=2, objects=2, flags=['MULTIPLE_PERSONS_IN_FRAME']
+16:02:03 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (3): ['IDENTITY_MISMATCH', 'GAZE_AWAY_SUSTAINED', 'MULTIPLE_PERSONS_IN_FRAME'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.9s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.6s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.7s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.5s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.6s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.2s)
+16:02:04 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.3s)
+16:02:07 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+16:02:09 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['NO_FACE_DETECTED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:02:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.3s)
+16:02:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.3s)
+16:02:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.4s)
+16:02:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.1s)
+16:02:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.3s)
+16:02:11 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+INFO:     127.0.0.1:57784 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:02:13 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:02:13 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.9s)
+16:02:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.8s)
+16:02:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.9s)
+16:02:16 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+16:02:21 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:02:21 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.8s)
+16:02:21 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.9s)
+16:02:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.1s)
+16:02:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.1s)
+16:02:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.2s)
+16:02:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.3s)
+16:02:22 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+16:02:27 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+INFO:     127.0.0.1:61750 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.1s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 8.0s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.1s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.0s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.3s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.3s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.5s)
+16:02:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.7s)
+INFO:     127.0.0.1:54725 - "POST /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62944 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/secondary HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62943 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 206 Partial Content
+16:02:35 | proctoring.ws            | INFO    | \U0001f399\ufe0f Voice Identity check: similarity=0.713 for Divyansh Rai
+16:02:35 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['SPEECH_DETECTED'] | grace=False | session_status=in_progress | started_at=2026-03-11 10:31:05.649605
+16:02:35 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.6s)
+16:02:35 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.6s)
+16:02:35 | reports                  | INFO    | Report saved: C:\Users\Divyansh\proctorshield\backend\reports\4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0.json
+INFO:     connection closed
+INFO:     127.0.0.1:62947 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51347 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52668 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60146 - "GET /api/v1/sessions/4f4a41f9-8c7b-4b7e-b0b9-e1d35c1fa8f0/recording/main HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61748 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:03:15 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+16:03:15 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+16:03:15 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+16:03:15 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:55843 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61377 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57243 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57989 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50976 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55791 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60375 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59133 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59061 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53357 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50492 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51917 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64242 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56500 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63691 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50276 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59445 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61997 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52504 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61658 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55307 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59954 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51857 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55429 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64237 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65080 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56435 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55068 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63985 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59522 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49593 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54175 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58041 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61395 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53611 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62680 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61790 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49325 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54860 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54428 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54004 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55070 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61185 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52913 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62535 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53902 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61912 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62877 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65518 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54803 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:51:26 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+16:51:26 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:53435 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54967 - "WebSocket /ws/dashboard" [accepted]
+16:52:43 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+16:52:43 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:61232 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53231 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51846 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+16:55:40 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+16:55:40 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:61747 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65229 - "WebSocket /ws/dashboard" [accepted]
+16:57:35 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+16:57:35 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:63536 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52136 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50512 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+17:00:32 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+17:00:32 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:63316 - "WebSocket /ws/dashboard" [accepted]
+17:03:30 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+17:03:30 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     127.0.0.1:52130 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     connection open
+INFO:     127.0.0.1:60551 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54117 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57918 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56915 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63972 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58735 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+17:10:10 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+17:10:10 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:57459 - "WebSocket /ws/dashboard" [accepted]
+INFO:     127.0.0.1:61310 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+17:20:43 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+17:20:43 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:59879 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62923 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57567 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60421 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58397 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61346 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59377 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65451 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49582 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64449 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+17:30:51 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+17:30:51 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:58857 - "WebSocket /ws/dashboard" [accepted]
+18:30:03 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+18:30:03 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:65056 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60318 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55963 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55963 - "GET /openapi.json HTTP/1.1" 200 OK
+18:31:37 | sessions                 | INFO    | \u2705 ERP face embedding loaded for STU001
+INFO:     127.0.0.1:64931 - "POST /api/v1/sessions/mock/create-test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59114 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     103.86.105.66:0 - "WebSocket /ws/mobile/8JO6W4" [accepted]
+18:32:14 | proctoring.ws            | INFO    | \U0001f4f1 Mobile camera connected for Divyansh Rai (code: 8JO6W4)
+INFO:     connection open
+INFO:     103.86.105.66:0 - "WebSocket /ws/mobile/8JO6W4" [accepted]
+18:32:17 | proctoring.ws            | INFO    | \U0001f4f1 Mobile camera connected for Divyansh Rai (code: 8JO6W4)
+INFO:     connection open
+INFO:     127.0.0.1:63096 - "WebSocket /ws/proctor/8JO6W4" [accepted]
+18:32:22 | proctoring.ws            | INFO    | Student connected: Divyansh Rai (code: 8JO6W4)
+INFO:     connection open
+18:32:57 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.661 for Divyansh Rai
+18:32:57 | evidence                 | INFO    | Evidence saved: C:\Users\Divyansh\proctorshield\backend\evidence\084e5343-a595-4471-a41b-34cc75e740e8\130257_IDENTITY_VERIFIED.jpg
+INFO:     127.0.0.1:54362 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:33:22 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+INFO:     127.0.0.1:61615 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:33:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.6s)
+18:33:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.1s)
+18:33:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.4s)
+18:33:29 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+INFO:     127.0.0.1:61615 - "GET /dashboard/ HTTP/1.1" 304 Not Modified
+18:33:29 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+18:33:29 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:61615 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:33:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.3s)
+18:33:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.5s)
+18:33:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.5s)
+18:33:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.6s)
+18:33:30 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.6s)
+INFO:     127.0.0.1:58921 - "WebSocket /ws/dashboard" [accepted]
+18:33:31 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+18:33:31 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+18:33:32 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 6.9s)
+18:33:32 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 3.9s)
+INFO:     127.0.0.1:50341 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 19.0s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 19.0s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 17.2s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 17.3s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 14.1s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 14.0s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 12.7s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 12.7s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 11.5s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 11.4s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 9.2s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.3s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.9s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.9s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.5s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.5s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+18:33:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.4s)
+18:34:00 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+18:34:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 14.3s)
+18:34:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 11.3s)
+18:34:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 8.3s)
+18:34:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 5.3s)
+INFO:     127.0.0.1:64963 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62617 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53194 - "WebSocket /ws/dashboard" [accepted]
+18:34:08 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+18:34:08 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:54577 - "WebSocket /ws/dashboard" [accepted]
+18:34:08 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+18:34:08 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 20.9s)
+18:34:09 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 19.0s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 19.2s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 17.0s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 17.1s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 15.0s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 15.1s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 12.7s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 12.7s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 10.4s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.4s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 9.1s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.1s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.3s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.3s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.4s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.5s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.7s)
+18:34:09 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.8s)
+INFO:     127.0.0.1:65521 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:34:11 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+18:34:11 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:63881 - "WebSocket /ws/dashboard" [accepted]
+18:34:14 | session_manager          | INFO    | Dashboard connected. Total dashboards: 3
+18:34:14 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:56769 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+18:34:20 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 19.9s)
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 16.9s)
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 13.9s)
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 10.9s)
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 7.9s)
+18:34:27 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 4.9s)
+18:34:28 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 20.8s)
+18:34:28 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 18.9s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 19.1s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 17.0s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 17.1s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 14.1s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 14.1s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 12.3s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 12.4s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 10.7s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.8s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 9.2s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 9.2s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.4s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.4s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.3s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.4s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.5s)
+18:34:29 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.6s)
+18:34:31 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+18:34:31 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 2.8s)
+INFO:     127.0.0.1:49697 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:34:33 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['NO_FACE_DETECTED'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 6.2s)
+18:34:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.0s)
+18:34:34 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.1s)
+18:34:36 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+18:34:37 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 2.7s)
+INFO:     127.0.0.1:54611 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51157 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+18:34:39 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:39 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.5s)
+18:34:39 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:39 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.2s)
+18:34:39 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+18:34:40 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+18:34:40 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.5s)
+18:34:41 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+18:34:44 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:44 | proctoring.ws            | WARNING | \u26a0\ufe0f ALL 2 FLAGS DROPPED! grace=False, cooldowns={'TAB_SWITCH_OR_MINIMIZE': 1773234279.711684, 'TAB_SWITCH_ATTEMPT': 1773234279.711684, 'NO_FACE_DETECTED': 1773234279.5098906, 'FACE_ABSENT_EXTENDED': 1773234279.5098906}
+18:34:44 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 5.9s)
+18:34:45 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=0, match=None, face_flags=1
+INFO:     127.0.0.1:64258 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+18:34:49 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (2): ['NO_FACE_DETECTED', 'FACE_ABSENT_EXTENDED'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.7s)
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 7.4s)
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.5s)
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.3s)
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.4s)
+18:34:49 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 2.8s)
+INFO:     127.0.0.1:64258 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:64258 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+18:34:52 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+18:34:52 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 3.5s)
+INFO:     127.0.0.1:56361 - "POST /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/snippet HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:54610 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:35:02 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+18:35:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 12.4s)
+18:35:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 9.4s)
+18:35:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 6.4s)
+18:35:05 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 3.4s)
+18:35:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 17.4s)
+18:35:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 13.1s)
+18:35:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 13.2s)
+18:35:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 12.3s)
+18:35:07 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 10.2s)
+18:35:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.4s)
+18:35:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 9.9s)
+18:35:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 10.0s)
+18:35:08 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.4s)
+INFO:     127.0.0.1:65442 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+18:35:11 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 8.3s)
+18:35:11 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 6.6s)
+18:35:11 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 5.2s)
+18:35:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 7.4s)
+18:35:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 4.4s)
+18:35:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.4s)
+18:35:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale audio chunk (latency: 4.1s)
+18:35:14 | proctoring.ws            | WARNING | \u23f3 Dropping stale main frame (latency: 3.0s)
+INFO:     connection closed
+18:35:20 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=0
+18:35:20 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 6.9s)
+18:35:20 | proctoring.ws            | WARNING | \u23f3 Dropping stale secondary frame (latency: 3.9s)
+18:35:21 | proctoring.ws            | INFO    | \U0001f4f1 Mobile disconnected: Divyansh Rai
+INFO:     connection closed
+INFO:     connection closed
+18:35:22 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (1): ['TAB_SWITCH_ATTEMPT'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:03:17.793803
+18:35:22 | proctoring.ws            | INFO    | Disconnected: Divyansh Rai
+18:35:24 | proctoring.ws            | INFO    | \U0001f4f1 Mobile disconnected: Divyansh Rai
+INFO:     127.0.0.1:61626 - "GET /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/main HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58485 - "GET /api/v1/sessions/084e5343-a595-4471-a41b-34cc75e740e8/recording/secondary HTTP/1.1" 404 Not Found
+18:35:26 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 2
+18:35:26 | proctoring.ws            | INFO    | Admin dashboard disconnected
+18:35:26 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+18:35:26 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:59562 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63349 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59617 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50125 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49426 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63908 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61037 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54039 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53260 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53781 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57189 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61027 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55176 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64782 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64669 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56730 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54788 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50812 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57882 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55832 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65265 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57362 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51118 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59007 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60481 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61124 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52623 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52544 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52349 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:01:05 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:01:05 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:63322 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63322 - "GET /openapi.json HTTP/1.1" 200 OK
+19:05:48 | sessions                 | INFO    | \u2705 ERP face embedding loaded for STU001
+INFO:     127.0.0.1:54739 - "POST /api/v1/sessions/mock/create-test HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64326 - "WebSocket /ws/dashboard" [accepted]
+19:06:09 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:06:09 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:55185 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55186 - "WebSocket /ws/dashboard" [accepted]
+19:06:16 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+19:06:16 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     103.86.105.66:0 - "WebSocket /ws/mobile/65JZF1" [accepted]
+19:06:42 | proctoring.ws            | INFO    | \U0001f4f1 Mobile camera connected for Divyansh Rai (code: 65JZF1)
+INFO:     connection open
+INFO:     103.86.105.66:0 - "WebSocket /ws/mobile/65JZF1" [accepted]
+19:06:45 | proctoring.ws            | INFO    | \U0001f4f1 Mobile camera connected for Divyansh Rai (code: 65JZF1)
+INFO:     connection open
+INFO:     127.0.0.1:61401 - "WebSocket /ws/proctor/65JZF1" [accepted]
+19:06:54 | proctoring.ws            | INFO    | Student connected: Divyansh Rai (code: 65JZF1)
+INFO:     connection open
+INFO:     127.0.0.1:51803 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:07:36 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.635 for Divyansh Rai
+19:07:36 | evidence                 | INFO    | Evidence saved: C:\Users\Divyansh\proctorshield\backend\evidence\92d439f0-5087-4bfe-bd23-c017910c453d\133736_IDENTITY_VERIFIED.jpg
+19:07:50 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.109 for Divyansh Rai
+INFO:     127.0.0.1:65107 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:08:42 | proctoring.ws            | INFO    | \U0001f510 Identity check: similarity=0.618 for Divyansh Rai
+19:08:43 | evidence                 | INFO    | Evidence saved: C:\Users\Divyansh\proctorshield\backend\evidence\92d439f0-5087-4bfe-bd23-c017910c453d\133842_IDENTITY_VERIFIED.jpg
+19:09:08 | proctoring.ws            | INFO    | \U0001f9e0 FRAME AI: faces=1, match=True, face_flags=1
+19:09:09 | proctoring.ws            | INFO    | \U0001f4e6 OBJ DETECT: persons=1, objects=4, flags=['BANNED_OBJECT_TV', 'BANNED_OBJECT_LAPTOP']
+19:09:09 | proctoring.ws            | INFO    | \U0001f3f7\ufe0f RAW FLAGS (3): ['GAZE_AWAY_SUSTAINED', 'BANNED_OBJECT_TV', 'BANNED_OBJECT_LAPTOP'] | grace=False | session_status=in_progress | started_at=2026-03-11 13:39:03.975190
+INFO:     127.0.0.1:56934 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:09:19 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+19:09:19 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+19:09:19 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:09:19 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:50732 - "POST /api/v1/sessions/92d439f0-5087-4bfe-bd23-c017910c453d/recording/snippet HTTP/1.1" 400 Bad Request
+19:09:22 | proctoring.ws            | INFO    | Disconnected: Divyansh Rai
+INFO:     connection closed
+INFO:     127.0.0.1:53180 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51240 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51241 - "WebSocket /ws/dashboard" [accepted]
+19:09:23 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:09:23 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:51091 - "WebSocket /ws/dashboard" [accepted]
+19:09:29 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+19:09:29 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+19:09:32 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+19:09:32 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+19:09:32 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:09:32 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:49908 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49909 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63529 - "WebSocket /ws/dashboard" [accepted]
+19:09:34 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:09:34 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+19:09:36 | proctoring.ws            | INFO    | \U0001f4f1 Mobile disconnected: Divyansh Rai
+INFO:     connection closed
+19:09:36 | proctoring.ws            | INFO    | \U0001f4f1 Mobile disconnected: Divyansh Rai
+INFO:     connection closed
+INFO:     127.0.0.1:57032 - "WebSocket /ws/dashboard" [accepted]
+19:09:37 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+19:09:37 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+19:09:41 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+19:09:41 | proctoring.ws            | INFO    | Admin dashboard disconnected
+19:09:41 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:09:41 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:60568 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56753 - "WebSocket /ws/dashboard" [accepted]
+19:09:43 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:09:43 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:56754 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49257 - "WebSocket /ws/dashboard" [accepted]
+19:09:46 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+19:09:46 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:49261 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:10:36 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+19:10:36 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+19:10:36 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:10:36 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:61433 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57748 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54811 - "WebSocket /ws/dashboard" [accepted]
+19:10:37 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:10:37 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+19:10:40 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:10:40 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:61054 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50805 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51178 - "WebSocket /ws/dashboard" [accepted]
+19:10:41 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:10:41 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+19:10:43 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:10:43 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+INFO:     127.0.0.1:58548 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50652 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60521 - "WebSocket /ws/dashboard" [accepted]
+19:10:44 | session_manager          | INFO    | Dashboard connected. Total dashboards: 1
+19:10:44 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:55944 - "WebSocket /ws/dashboard" [accepted]
+19:10:47 | session_manager          | INFO    | Dashboard connected. Total dashboards: 2
+19:10:47 | proctoring.ws            | INFO    | Admin dashboard connected
+INFO:     connection open
+INFO:     127.0.0.1:50282 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52294 - "GET /api/v1/sessions/active/all HTTP/1.1" 200 OK
+19:11:59 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 1
+19:11:59 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed
+19:11:59 | session_manager          | INFO    | Dashboard disconnected. Total dashboards: 0
+19:11:59 | proctoring.ws            | INFO    | Admin dashboard disconnected
+INFO:     connection closed

@@ -1,0 +1,50 @@
+# Pillar 13: The Elastic GPU Swarm (Auto-Scaling with KEDA)
+# This manifest configures Kubernetes to auto-scale AI Workers based on Redis queue depth
+
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: ai-worker-scaler
+  namespace: proctorshield
+spec:
+  scaleTargetRef:
+    name: ai-worker-deployment
+  minReplicaCount: 1       # Always keep 1 standby worker (warm)
+  maxReplicaCount: 20      # Max 20 GPU workers during peak exams
+  cooldownPeriod: 600      # 10 minutes cooldown before scaling down
+  
+  triggers:
+    # TRIGGER 1: Scale up when Redis queue has frames waiting
+    - type: redis
+      metadata:
+        address: redis.proctorshield.svc.cluster.local:6379
+        listName: frame_queue
+        listLength: "50"     # Scale +1 when queue > 50 frames
+        activationListLength: "10"  # Don't scale to zero until < 10
+      
+    # TRIGGER 2: Aggressive scaling for massive exams
+    - type: redis
+      metadata:
+        address: redis.proctorshield.svc.cluster.local:6379
+        listName: frame_queue
+        listLength: "200"    # Scale +5 when queue > 200 frames
+        activationListLength: "200"
+
+---
+# Alternative: CPU-based scaling for non-GPU inference nodes
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: ai-worker-cpu-scaler
+  namespace: proctorshield
+spec:
+  scaleTargetRef:
+    name: ai-worker-cpu-deployment
+  minReplicaCount: 2
+  maxReplicaCount: 50
+  
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "70"          # Scale when CPU > 70%

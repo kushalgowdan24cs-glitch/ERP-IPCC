@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+backend/venv/
+
+# Node
+node_modules/
+client/node_modules/
+client/src/node_modules/
+
+# Build and cache
+.dist/
+dist/
+build/
+.cache/
+
+# Runtime data and artifacts
+local_db_data/
+minio_data/
+backend/evidence/
+backend/frames/
+backend/recordings/
+backend/reports/
+evidence/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.*
+!.env.example

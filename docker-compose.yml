@@ -1,0 +1,85 @@
+﻿version: '3.8'
+
+services:
+  # ─── MESSAGE QUEUE (The Shock Absorber) ───
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    # appendonly ensures if the container crashes, your AI processing queue isn't lost
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: always
+
+  # ─── PERMANENT STATE MACHINE ───
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: supersecretpassword
+      POSTGRES_DB: proctorshield
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./local_db_data:/var/lib/postgresql/data
+      - ./backend/sql:/docker-entrypoint-initdb.d # Auto-runs our SQL schemas on boot
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d proctorshield"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─── EVIDENCE VAULT (Session Recordings) ───
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - "9000:9000" # API Port
+      - "9001:9001" # Web Dashboard Port
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: supersecretpassword
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ─── WEBRTC MEDIA SERVER (Zero-Lag Video) ───
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: livekit
+    command: --config /etc/livekit.yaml
+    ports:
+      - "7880:7880"       # HTTP API
+      - "7881:7881"       # WebRTC TCP
+      - "7882:7882/udp"   # WebRTC UDP
+      - "3478:3478/udp"   # TURN UDP (Crucial for strict college firewalls)
+      - "5349:5349"       # TURN TLS
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+
+  # ─── SESSION RECORDER (Auto-saves video to MinIO) ───
+  livekit-egress:
+    image: livekit/egress:latest
+    environment:
+      EGRESS_CONFIG_FILE: /etc/egress.yaml
+    volumes:
+      - ./egress.yaml:/etc/egress.yaml
+    depends_on:
+      - livekit
+      - redis
+      - minio
+    restart: always

@@ -1,0 +1,265 @@
+# Pillar 13: Kubernetes Deployment Manifests
+# Complete production stack for the ProctorShield Elastic GPU Swarm
+
+---
+# AI Worker Deployment (GPU-enabled)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-worker-deployment
+  namespace: proctorshield
+  labels:
+    app: ai-worker
+spec:
+  replicas: 1  # Managed by KEDA ScaledObject
+  selector:
+    matchLabels:
+      app: ai-worker
+  template:
+    metadata:
+      labels:
+        app: ai-worker
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-tesla-t4  # GPU node selector
+      containers:
+        - name: ai-worker
+          image: proctorshield/ai-worker:latest
+          resources:
+            limits:
+              nvidia.com/gpu: 1  # Request 1 GPU per worker
+              memory: "8Gi"
+              cpu: "4000m"
+            requests:
+              memory: "4Gi"
+              cpu: "2000m"
+          env:
+            - name: REDIS_URL
+              value: "redis://redis.proctorshield.svc.cluster.local:6379"
+            - name: TRITON_SERVER_URL
+              value: "triton.proctorshield.svc.cluster.local:8001"
+            - name: POSTGRES_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: url
+          volumeMounts:
+            - name: model-cache
+              mountPath: /app/models
+      volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: model-cache-pvc
+
+---
+# AI Worker Service (for internal communication)
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-worker-service
+  namespace: proctorshield
+spec:
+  selector:
+    app: ai-worker
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+# Triton Inference Server (Centralized GPU Brain)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-inference-server
+  namespace: proctorshield
+spec:
+  replicas: 2  # Keep 2 for high availability
+  selector:
+    matchLabels:
+      app: triton
+  template:
+    metadata:
+      labels:
+        app: triton
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-tesla-a100  # A100 for inference
+      containers:
+        - name: triton
+          image: nvcr.io/nvidia/tritonserver:23.10-py3
+          args: ["tritonserver", "--model-repository=/models"]
+          ports:
+            - containerPort: 8000  # HTTP
+            - containerPort: 8001  # gRPC
+            - containerPort: 8002  # Metrics
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+              memory: "16Gi"
+            requests:
+              memory: "8Gi"
+          volumeMounts:
+            - name: model-repo
+              mountPath: /models
+      volumes:
+        - name: model-repo
+          persistentVolumeClaim:
+            claimName: triton-models-pvc
+
+---
+# Triton Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-service
+  namespace: proctorshield
+spec:
+  selector:
+    app: triton
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+    - name: grpc
+      port: 8001
+      targetPort: 8001
+    - name: metrics
+      port: 8002
+      targetPort: 8002
+  type: ClusterIP
+
+---
+# FastAPI Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-backend
+  namespace: proctorshield
+spec:
+  replicas: 3  # HA: 3 instances
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: proctorshield/backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_URL
+              value: "redis://redis.proctorshield.svc.cluster.local:6379"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: url
+            - name: MINIO_ENDPOINT
+              value: "minio.proctorshield.svc.cluster.local:9000"
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+
+---
+# FastAPI Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: proctorshield
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
+---
+# Nginx Ingress Controller (SSL Termination)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proctorshield-ingress
+  namespace: proctorshield
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/websocket-services: "backend-service"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
+spec:
+  tls:
+    - hosts:
+        - api.proctorshield.rnsit.edu.in
+      secretName: proctorshield-tls
+  rules:
+    - host: api.proctorshield.rnsit.edu.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8000
+
+---
+# Horizontal Pod Autoscaler for FastAPI (CPU-based)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: proctorshield
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fastapi-backend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+
+---
+# Persistent Volume Claims
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-pvc
+  namespace: proctorshield
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: fast-ssd
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: triton-models-pvc
+  namespace: proctorshield
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: fast-ssd

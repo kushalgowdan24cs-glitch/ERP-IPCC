@@ -1,0 +1,34 @@
+{
+  "name": "proctorshield-client",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@livekit/components-react": "^2.9.20",
+    "@livekit/components-styles": "^1.2.0",
+    "@monaco-editor/react": "^4.7.0",
+    "@tauri-apps/api": "^2.10.1",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@vladmandic/face-api": "^1.7.15",
+    "face-api.js": "^0.22.2",
+    "livekit-client": "^2.17.3",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-qr-code": "^2.0.18",
+    "react-router-dom": "^7.13.1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1",
+    "@vitejs/plugin-basic-ssl": "^2.2.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^7.3.1"
+  }
+}

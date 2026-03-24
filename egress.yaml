@@ -1,0 +1,18 @@
+﻿log_level: info
+
+# Must match livekit.yaml exactly
+api_key: devkey
+api_secret: f47ac10b58cc4372a5670e02b2c3d479f47ac10b58cc4372
+
+ws_url: ws://livekit:7880
+health_port: 0
+template_port: 0
+
+# ─── EVIDENCE VAULT TARGET ───
+s3:
+  access_key: admin
+  secret: supersecretpassword
+  endpoint: http://minio:9000
+  region: us-east-1
+  bucket: exam-recordings
+  force_path_style: true
