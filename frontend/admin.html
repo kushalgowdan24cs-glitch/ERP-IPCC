@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProctorShield — Admin Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07090f;
+      --surface: #0f1117;
+      --surface2: #161b25;
+      --surface3: #1c2333;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.12);
+      --accent: #ff6b35;
+      --accent-dim: rgba(255, 107, 53, .12);
+      --blue: #4f8eff;
+      --blue-dim: rgba(79, 142, 255, .12);
+      --green: #00e5a0;
+      --green-dim: rgba(0, 229, 160, .12);
+      --red: #ff4f6a;
+      --red-dim: rgba(255, 79, 106, .12);
+      --yellow: #ffb84f;
+      --yellow-dim: rgba(255, 184, 79, .12);
+      --purple: #a78bfa;
+      --purple-dim: rgba(167, 139, 250, .12);
+      --text: #e8eaf2;
+      --muted: #6b7280;
+      --muted2: #9ca3af;
+      --font-h: 'Syne', sans-serif;
+      --font-b: 'DM Sans', sans-serif;
+      --r: 12px;
+      --r-sm: 8px;
+      --r-lg: 18px;
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface2: #e8edf3;
+      --surface3: #dde3eb;
+      --border: rgba(0, 0, 0, 0.08);
+      --border2: rgba(0, 0, 0, 0.14);
+      --text: #1a202c;
+      --muted: #64748b;
+      --muted2: #475569;
+      --accent: #2563eb;
+      --accent-dim: rgba(37, 99, 235, 0.1);
+      --blue: #2563eb;
+      --blue-dim: rgba(37, 99, 235, 0.1);
+      --green: #059669;
+      --green-dim: rgba(5, 150, 105, 0.1);
+      --red: #dc2626;
+      --red-dim: rgba(220, 38, 38, 0.1);
+      --yellow: #d97706;
+      --yellow-dim: rgba(217, 119, 6, 0.1);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --card-glow: rgba(37, 99, 235, 0.06);
+    }
+
+    body.light .sb {
+      background: #ffffff;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    body.light table thead th {
+      background: #e8edf3;
+    }
+
+    body.light .field input,
+    body.light .field select,
+    body.light .field textarea {
+      background: #f8fafc;
+      color: #1a202c;
+    }
+
+    body.light .tbl-wrap {
+      background: #ffffff;
+    }
+
+    body.light .modal {
+      background: #ffffff;
+    }
+
+    body.light .toast {
+      background: #ffffff;
+      color: #1a202c;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 4px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    .b-live {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(0, 229, 160, .2)
+    }
+
+    .b-up {
+      background: var(--blue-dim);
+      color: var(--blue);
+      border: 1px solid rgba(79, 142, 255, .2)
+    }
+
+    .b-done {
+      background: rgba(107, 114, 128, .12);
+      color: var(--muted2);
+      border: 1px solid rgba(107, 114, 128, .2)
+    }
+
+    .b-draft {
+      background: var(--yellow-dim);
+      color: var(--yellow);
+      border: 1px solid rgba(255, 184, 79, .2)
+    }
+
+    .b-student {
+      background: var(--blue-dim);
+      color: var(--blue)
+    }
+
+    .b-teacher {
+      background: var(--purple-dim);
+      color: var(--purple)
+    }
+
+    .b-admin {
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .b-active {
+      background: var(--green-dim);
+      color: var(--green)
+    }
+
+    .b-blocked {
+      background: var(--red-dim);
+      color: var(--red)
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: blink 1.4s ease-in-out infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    /* SIDEBAR */
+    #pg-app {
+      display: none;
+      min-height: 100vh
+    }
+
+    .sb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 232px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 14px;
+      z-index: 100
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 8px;
+      margin-bottom: 30px;
+      font-family: var(--font-h);
+      font-size: 16px;
+      font-weight: 800
+    }
+
+    .sb-brand span {
+      color: var(--accent)
+    }
+
+    .sb-brand .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), #e85d04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px
+    }
+
+    .sb-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      padding: 0 10px;
+      margin: 16px 0 5px
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 10px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all .15s;
+      user-select: none
+    }
+
+    .nav:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
+
+    .nav.on {
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .nav .ni {
+      font-size: 16px;
+      width: 20px;
+      text-align: center
+    }
+
+    .nav .nb {
+      margin-left: auto;
+      background: var(--red);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px
+    }
+
+    .sb-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border)
+    }
+
+    .u-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px
+    }
+
+    .u-av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #e85d04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .u-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2
+    }
+
+    .u-role {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: 232px;
+      padding: 32px 36px;
+      min-height: 100vh
+    }
+
+    .pg {
+      display: none
+    }
+
+    .pg.on {
+      display: block
+    }
+
+    .ph {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap
+    }
+
+    .ph-title {
+      font-family: var(--font-h);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.4px
+    }
+
+    .ph-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px
+    }
+
+    .ph-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    /* STAT CARDS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 28px
+    }
+
+    .sc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 20px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+      cursor: default
+    }
+
+    .sc:hover {
+      border-color: rgba(255, 107, 53, .25);
+      transform: translateY(-2px)
+    }
+
+    .sc::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-dim)
+    }
+
+    .sc-icon {
+      font-size: 18px;
+      margin-bottom: 8px
+    }
+
+    .sc-val {
+      font-family: var(--font-h);
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 2px
+    }
+
+    .sc-lbl {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    /* SECTION HEADING */
+    .sh {
+      font-family: var(--font-h);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted2)
+    }
+
+    .sh::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    /* TABLE */
+    .tbl-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 20px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    th {
+      background: var(--surface2);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap
+    }
+
+    td {
+      padding: 11px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, .015)
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      border: none;
+      white-space: nowrap
+    }
+
+    .btn:hover {
+      opacity: .85
+    }
+
+    .btn:active {
+      transform: scale(.97)
+    }
+
+    .btn-orange {
+      background: linear-gradient(135deg, var(--accent), #e85d04);
+      color: #fff
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), #00b377);
+      color: #07090f
+    }
+
+    .btn-red {
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid rgba(255, 79, 106, .25)
+    }
+
+    .btn-blue {
+      background: var(--blue-dim);
+      color: var(--blue);
+      border: 1px solid rgba(79, 142, 255, .25)
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--muted2);
+      border: 1px solid var(--border)
+    }
+
+    .btn-sm {
+      padding: 5px 11px;
+      font-size: 11px
+    }
+
+    /* MODAL */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .75);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px)
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-lg);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      animation: rise .3s ease both;
+      position: relative
+    }
+
+    .modal-wide {
+      max-width: 740px
+    }
+
+    .modal-title {
+      font-family: var(--font-h);
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 4px
+    }
+
+    .modal-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--muted)
+    }
+
+    .modal-close:hover {
+      color: var(--text)
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border)
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* FORM */
+    .fg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .fg1 {
+      grid-template-columns: 1fr
+    }
+
+    .ff {
+      grid-column: 1/-1
+    }
+
+    .field {
+      margin-bottom: 0
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      margin-bottom: 6px
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 10px 13px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim)
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--muted)
+    }
+
+    .field select option {
+      background: var(--surface2)
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 70px
+    }
+
+    /* LIVE MONITOR */
+    .monitor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px
+    }
+
+    .monitor-card {
+      background: var(--surface);
+      border: 1px solid rgba(0, 229, 160, .2);
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .monitor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), transparent)
+    }
+
+    .mc-exam {
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 4px
+    }
+
+    .mc-title {
+      font-family: var(--font-h);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .mc-meta {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 14px
+    }
+
+    .mc-count {
+      font-family: var(--font-h);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    /* ANALYTICS BARS */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: var(--muted);
+      width: 130px;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 7px;
+      background: var(--surface3);
+      border-radius: 4px;
+      overflow: hidden
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--yellow))
+    }
+
+    .bar-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      width: 36px;
+      flex-shrink: 0;
+      text-align: right
+    }
+
+    /* FILTER ROW */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px
+    }
+
+    .filter-row input {
+      padding: 8px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 13px;
+      outline: none;
+      width: 220px
+    }
+
+    .filter-row input:focus {
+      border-color: var(--accent)
+    }
+
+    .filter-row select {
+      padding: 8px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 13px;
+      outline: none
+    }
+
+    /* EMPTY / SPINNER */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted)
+    }
+
+    .empty-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      opacity: .4
+    }
+
+    .empty p {
+      font-size: 13px
+    }
+
+    .spin {
+      width: 28px;
+      height: 28px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: sp .65s linear infinite;
+      margin: 36px auto
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* TOAST */
+    #toast-box {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 9999
+    }
+
+    .toast {
+      padding: 11px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+      animation: tin .3s ease both;
+      min-width: 220px
+    }
+
+    .toast.ok {
+      border-left: 3px solid var(--green)
+    }
+
+    .toast.err {
+      border-left: 3px solid var(--red)
+    }
+
+    .toast.info {
+      border-left: 3px solid var(--blue)
+    }
+
+    @keyframes tin {
+      from {
+        opacity: 0;
+        transform: translateX(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    /* VIOLATION SEVERITY */
+    .sev-high {
+      color: var(--red)
+    }
+
+    .sev-med {
+      color: var(--yellow)
+    }
+
+    .sev-low {
+      color: var(--muted2)
+    }
+
+    /* LIVE PULSE */
+    .live-ring {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green)
+    }
+
+    .live-ring::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.4s ease-in-out infinite
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ APP ══ -->
+  <div id="pg-app">
+    <aside class="sb">
+      <div class="sb-brand">
+        <div class="icon">🛡</div>Proctor<span>Shield</span>
+      </div>
+
+      <div class="sb-label">Overview</div>
+      <div class="nav on" id="n-dash" onclick="go('dash')"> <span class="ni">⊞</span> Dashboard</div>
+
+      <div class="sb-label">Management</div>
+      <div class="nav" id="n-users" onclick="go('users')"> <span class="ni">👥</span> Users</div>
+      <div class="nav" id="n-courses" onclick="go('courses')"> <span class="ni">📚</span> Courses</div>
+      <div class="nav" id="n-branches" onclick="go('branches')"> <span class="ni">🏫</span> Branches</div>
+
+      <div class="sb-label">Monitoring</div>
+      <div class="nav" id="n-monitor" onclick="go('monitor')"> <span class="ni">📡</span> Live Monitor</div>
+      <div class="nav" id="n-exams" onclick="go('exams')"> <span class="ni">📝</span> Exams</div>
+      <div class="nav" id="n-violations" onclick="go('violations')"><span class="ni">⚠️</span> Violations</div>
+
+      <div class="sb-label">Reports</div>
+      <div class="nav" id="n-analytics" onclick="go('analytics')"> <span class="ni">📊</span> Analytics</div>
+      <div class="nav" id="n-audit" onclick="go('audit')"> <span class="ni">🗒</span> Audit Log</div>
+
+      <div class="sb-footer">
+        <div class="u-pill">
+          <div class="u-av" id="sb-av">A</div>
+          <div>
+            <div class="u-name" id="sb-name">Admin</div>
+            <div class="u-role">Super Admin</div>
+          </div>
+        </div>
+        <div class="nav" onclick="toggleTheme()" id="theme-btn" style="margin-bottom:4px">
+          <span class="ni" id="theme-icon">🌙</span> <span id="theme-label">Dark Mode</span>
+        </div>
+        <div class="nav" onclick="toggleTheme()" id="theme-btn" style="margin-bottom:4px">
+          <span class="ni" id="theme-icon">🌙</span> <span id="theme-label">Dark Mode</span>
+        </div>
+        <div class="nav" onclick="doLogout()" style="color:var(--red);margin-top:4px"><span class="ni">↩</span> Logout
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <div class="pg on" id="pg-dash">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Admin Dashboard</div>
+            <div class="ph-sub" id="d-time">—</div>
+          </div>
+          <div class="ph-actions">
+            <button class="btn btn-green" onclick="go('monitor')"><span class="dot"></span> Live Monitor</button>
+            <button class="btn btn-orange" onclick="openModal('m-user')">➕ Add User</button>
+          </div>
+        </div>
+        <div class="stats" id="dash-stats">
+          <div class="spin" style="grid-column:1/-1"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+          <div>
+            <div class="sh">Live Exams Right Now</div>
+            <div id="dash-live">
+              <div class="spin"></div>
+            </div>
+          </div>
+          <div>
+            <div class="sh">Recent Violations</div>
+            <div id="dash-viols">
+              <div class="spin"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- USER MANAGEMENT -->
+      <div class="pg" id="pg-users">
+        <div class="ph">
+          <div>
+            <div class="ph-title">User Management</div>
+            <div class="ph-sub">Create, block and manage all platform users</div>
+          </div>
+          <button class="btn btn-orange" onclick="openModal('m-user')">➕ Create User</button>
+        </div>
+        <div class="filter-row">
+          <input id="user-search" placeholder="🔍 Search by name or email…" oninput="filterUsers()" />
+          <select id="user-role-filter" onchange="filterUsers()">
+            <option value="">All Roles</option>
+            <option value="student">Students</option>
+            <option value="teacher">Teachers</option>
+            <option value="admin">Admins</option>
+          </select>
+          <select id="user-status-filter" onchange="filterUsers()">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Branch/Dept</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="t-users">
+              <tr>
+                <td colspan="7">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COURSE MANAGEMENT -->
+      <div class="pg" id="pg-courses">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Course Management</div>
+            <div class="ph-sub">All courses across branches — assign teachers</div>
+          </div>
+          <button class="btn btn-orange" onclick="openModal('m-course')">➕ Add Course</button>
+        </div>
+        <div class="filter-row">
+          <select id="course-branch-filter" onchange="filterCourses()">
+            <option value="">All Branches</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Code</th>
+                <th>Branch</th>
+                <th>Sem</th>
+                <th>Teacher</th>
+                <th>Credits</th>
+                <th>Exams</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="t-courses">
+              <tr>
+                <td colspan="8">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BRANCHES -->
+      <div class="pg" id="pg-branches">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Branch Management</div>
+            <div class="ph-sub">Admin controls all academic branches</div>
+          </div>
+          <button class="btn btn-orange" onclick="openModal('m-branch')">➕ Add Branch</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Branch Name</th>
+                <th>Code</th>
+                <th>Courses</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="t-branches">
+              <tr>
+                <td colspan="5">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- LIVE MONITOR -->
+      <div class="pg" id="pg-monitor">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Live Exam Monitor</div>
+            <div class="ph-sub"><span class="live-ring">Live</span> — updates every 15 seconds</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="loadMonitor()">↻ Refresh</button>
+        </div>
+        <div id="monitor-content">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- EXAMS -->
+      <div class="pg" id="pg-exams">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Exam Management</div>
+            <div class="ph-sub">Enable, disable and monitor all exams</div>
+          </div>
+        </div>
+        <div class="filter-row">
+          <input id="exam-search" placeholder="🔍 Search exams…" oninput="filterExams()" />
+          <select id="exam-status-filter" onchange="filterExams()">
+            <option value="">All Status</option>
+            <option value="live">Live</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="done">Done</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Exam</th>
+                <th>Course</th>
+                <th>Branch/Section</th>
+                <th>Type</th>
+                <th>Timing</th>
+                <th>Status</th>
+                <th>Subs</th>
+                <th>Live</th>
+                <th>Control</th>
+              </tr>
+            </thead>
+            <tbody id="t-exams">
+              <tr>
+                <td colspan="9">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VIOLATIONS -->
+      <div class="pg" id="pg-violations">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Violation Reports</div>
+            <div class="ph-sub">Proctoring alerts and cheating analytics</div>
+          </div>
+        </div>
+        <div class="filter-row">
+          <input id="viol-search" placeholder="🔍 Search by student or exam…" oninput="filterViolations()" />
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Exam</th>
+                <th>Type</th>
+                <th>Severity</th>
+                <th>Recorded At</th>
+              </tr>
+            </thead>
+            <tbody id="t-violations">
+              <tr>
+                <td colspan="5">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="pg" id="pg-analytics">
+        <div class="ph">
+          <div>
+            <div class="ph-title">System Analytics</div>
+            <div class="ph-sub">Platform-wide performance insights</div>
+          </div>
+        </div>
+        <div id="analytics-content">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- AUDIT LOG -->
+      <div class="pg" id="pg-audit">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Audit Log</div>
+            <div class="ph-sub">Full submission trail for all exams</div>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Exam</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Evaluated By</th>
+                <th>Started</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="t-audit">
+              <tr>
+                <td colspan="7">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══ MODALS ══ -->
+
+  <!-- Create User -->
+  <div class="overlay hidden" id="m-user">
+    <div class="modal">
+      <div class="modal-close" onclick="closeModal('m-user')">×</div>
+      <div class="modal-title">Create User</div>
+      <div class="modal-sub">Add a new student, teacher, or admin</div>
+      <div class="fg" style="gap:12px">
+        <div class="field ff"><label>Full Name *</label><input id="u-name" placeholder="e.g. Rahul Sharma" /></div>
+        <div class="field"><label>Email *</label><input id="u-email" type="email" placeholder="user@college.edu" />
+        </div>
+        <div class="field"><label>Password *</label><input id="u-pass" type="password" placeholder="Min 8 characters" />
+        </div>
+        <div class="field"><label>Role *</label>
+          <select id="u-role" onchange="toggleUserFields()">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <!-- Student fields -->
+        <div id="student-fields" class="ff" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+          <div class="field"><label>Branch *</label>
+            <select id="u-branch">
+              <option value="">— Select —</option>
+            </select>
+          </div>
+          <div class="field"><label>Section *</label>
+            <select id="u-section">
+              <option value="">— Select —</option>
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+              <option>D</option>
+            </select>
+          </div>
+          <div class="field"><label>Semester</label><input id="u-sem" type="number" min="1" max="8" placeholder="1-8" />
+          </div>
+          <div class="field"><label>Roll Number</label><input id="u-roll" placeholder="e.g. 22CS001" /></div>
+          <div class="field"><label>Batch Year</label><input id="u-batch" type="number" placeholder="e.g. 2022" /></div>
+        </div>
+        <!-- Teacher fields -->
+        <div id="teacher-fields" class="ff" style="display:none;display:grid;grid-template-columns:1fr 1fr;gap:12px"
+          class="hidden">
+          <div class="field"><label>Department</label><input id="u-dept" placeholder="e.g. Computer Science" /></div>
+          <div class="field"><label>Employee ID</label><input id="u-empid" placeholder="e.g. EMP001" /></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-user')">Cancel</button>
+        <button class="btn btn-orange" onclick="createUser()">Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Branch -->
+  <div class="overlay hidden" id="m-branch">
+    <div class="modal">
+      <div class="modal-close" onclick="closeModal('m-branch')">×</div>
+      <div class="modal-title">Add Branch</div>
+      <div class="modal-sub">Create a new academic branch/department</div>
+      <div class="fg fg1" style="gap:12px">
+        <div class="field"><label>Branch Name *</label><input id="b-name"
+            placeholder="e.g. Artificial Intelligence & ML" /></div>
+        <div class="field"><label>Branch Code *</label><input id="b-code" placeholder="e.g. AIML"
+            style="text-transform:uppercase" /></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-branch')">Cancel</button>
+        <button class="btn btn-orange" onclick="createBranch()">Add Branch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Course -->
+  <div class="overlay hidden" id="m-course">
+    <div class="modal">
+      <div class="modal-close" onclick="closeModal('m-course')">×</div>
+      <div class="modal-title">Add Course</div>
+      <div class="modal-sub">Create a course and assign it to a teacher</div>
+      <div class="fg" style="gap:12px">
+        <div class="field"><label>Course Name *</label><input id="c-name" placeholder="e.g. Data Structures" /></div>
+        <div class="field"><label>Course Code *</label><input id="c-code" placeholder="e.g. CS301" /></div>
+        <div class="field"><label>Branch *</label>
+          <select id="c-branch">
+            <option value="">— Select Branch —</option>
+          </select>
+        </div>
+        <div class="field"><label>Semester *</label>
+          <select id="c-sem">
+            <option value="">— Select —</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+          </select>
+        </div>
+        <div class="field"><label>Assign Teacher *</label>
+          <select id="c-teacher">
+            <option value="">— Select Teacher —</option>
+          </select>
+        </div>
+        <div class="field"><label>Credits</label><input id="c-credits" type="number" min="1" max="6"
+            placeholder="e.g. 3" /></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-course')">Cancel</button>
+        <button class="btn btn-orange" onclick="createCourse()">Add Course</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign Teacher -->
+  <div class="overlay hidden" id="m-assign">
+    <div class="modal">
+      <div class="modal-close" onclick="closeModal('m-assign')">×</div>
+      <div class="modal-title">Reassign Teacher</div>
+      <div class="modal-sub" id="m-assign-course">—</div>
+      <div class="field"><label>Select Teacher *</label>
+        <select id="assign-teacher">
+          <option value="">— Select —</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-assign')">Cancel</button>
+        <button class="btn btn-orange" onclick="doAssignTeacher()">Reassign</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    // ══════════════════════════════════
+    // CONFIG
+    // ══════════════════════════════════
+    const BASE = 'http://localhost:8000';
+
+    // ══════════════════════════════════
+    // STATE
+    // ══════════════════════════════════
+    let TOKEN = localStorage.getItem('ps_a_tok') || null;
+    let USER = JSON.parse(localStorage.getItem('ps_a_usr') || 'null');
+    let ALL_USERS = [];
+    let ALL_COURSES = [];
+    let ALL_BRANCHES = [];
+    let ALL_EXAMS = [];
+    let ALL_VIOLATIONS = [];
+    let ALL_AUDIT = [];
+    let TEACHERS = [];
+    let ASSIGN_COURSE_ID = null;
+
+    // ── THEME ──────────────────────────────────────────────
+    const THEME_KEY = 'ps_theme';
+
+    function applyTheme(theme) {
+      document.body.classList.toggle('light', theme === 'light');
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (icon) icon.textContent = theme === 'light' ? '🌙' : '☀️';
+      if (label) label.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem(THEME_KEY) || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    }
+
+    // Apply saved theme on load
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    // ══════════════════════════════════
+    // BOOT
+    // ══════════════════════════════════
+    (function () {
+      if (!TOKEN || !USER) {
+        window.location.href = 'login.html'; return;
+      }
+      if (USER.role !== 'admin') {
+        window.location.href = 'login.html'; return;
+      }
+      document.getElementById('pg-app').style.display = 'block';
+      const initials = USER.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('sb-av').textContent = initials;
+      document.getElementById('sb-name').textContent = USER.name;
+
+      // Clock
+      setInterval(() => {
+        const el = document.getElementById('d-time');
+        if (el) el.textContent = new Date().toLocaleString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+      }, 1000);
+
+      loadAll();
+      // Auto-refresh monitor every 15s
+      setInterval(() => { if (document.getElementById('pg-monitor').classList.contains('on')) loadMonitor(); }, 15000);
+    })();
+
+    // ══════════════════════════════════
+    // API
+    // ══════════════════════════════════
+    async function api(path, method = 'GET', body = null) {
+      const r = await fetch(BASE + path, {
+        method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+        ...(body ? { body: JSON.stringify(body) } : {})
+      });
+      if (!r.ok) { const e = await r.json().catch(() => ({ detail: 'Error' })); throw new Error(e.detail || r.statusText); }
+      return r.json();
+    }
+
+    function toast(msg, type = 'ok') {
+      const el = document.createElement('div');
+      el.className = `toast ${type}`; el.textContent = msg;
+      document.getElementById('toast-box').appendChild(el);
+      setTimeout(() => el.remove(), 3200);
+    }
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    function fmt(iso) { if (!iso) return '—'; return new Date(iso).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+    function fmtDate(iso) { if (!iso) return '—'; return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
+
+    function examStatus(e) {
+      const now = new Date(), s = new Date(e.start_time), en = new Date(e.end_time);
+      if (!e.is_published) return 'draft';
+      if (now >= s && now <= en) return 'live';
+      if (now < s) return 'upcoming';
+      return 'done';
+    }
+    function statusBadge(st) {
+      return {
+        live: `<span class="badge b-live"><span class="dot"></span> Live</span>`,
+        upcoming: `<span class="badge b-up">⏰ Upcoming</span>`,
+        done: `<span class="badge b-done">✓ Done</span>`,
+        draft: `<span class="badge b-draft">✏️ Draft</span>`,
+      }[st] || '';
+    }
+
+    function doLogout() {
+      localStorage.removeItem('ps_a_tok');
+      localStorage.removeItem('ps_a_usr');
+      window.location.href = 'login.html';
+    }
+
+    // ══════════════════════════════════
+    // NAV
+    // ══════════════════════════════════
+    function go(name) {
+      document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.nav').forEach(n => n.classList.remove('on'));
+      document.getElementById('pg-' + name).classList.add('on');
+      document.getElementById('n-' + name).classList.add('on');
+      const loaders = {
+        users: renderUsers, courses: renderCourses, branches: renderBranches,
+        monitor: loadMonitor, exams: renderExams, violations: renderViolations,
+        analytics: renderAnalytics, audit: renderAudit
+      };
+      if (loaders[name]) loaders[name]();
+    }
+
+    // ══════════════════════════════════
+    // LOAD ALL
+    // ══════════════════════════════════
+    async function loadAll() {
+      try {
+        const [dash, users, courses, exams, viols, audit, branches] = await Promise.all([
+          api('/admin/dashboard'),
+          api('/admin/users'),
+          api('/admin/courses'),
+          api('/admin/exams'),
+          api('/admin/violations'),
+          api('/admin/audit'),
+          api('/admin/branches').catch(() => ({ branches: [] })),
+        ]);
+
+        ALL_USERS = users.users || [];
+        ALL_COURSES = courses.courses || [];
+        ALL_EXAMS = exams.exams || [];
+        ALL_VIOLATIONS = viols.violations || [];
+        ALL_AUDIT = audit.audit || [];
+        ALL_BRANCHES = branches.branches || [];
+        TEACHERS = ALL_USERS.filter(u => u.role === 'teacher');
+
+        renderDash(dash);
+        populateBranchDropdowns();
+        populateTeacherDropdowns();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ══════════════════════════════════
+    // DASHBOARD
+    // ══════════════════════════════════
+    function renderDash(d) {
+      const s = d.stats || {};
+      document.getElementById('dash-stats').innerHTML = `
+    <div class="sc"><div class="sc-icon">👥</div><div class="sc-val">${s.total_students || 0}</div><div class="sc-lbl">Students</div></div>
+    <div class="sc"><div class="sc-icon">👨‍🏫</div><div class="sc-val">${s.total_teachers || 0}</div><div class="sc-lbl">Teachers</div></div>
+    <div class="sc"><div class="sc-icon">📚</div><div class="sc-val">${s.total_courses || 0}</div><div class="sc-lbl">Courses</div></div>
+    <div class="sc"><div class="sc-icon">📝</div><div class="sc-val">${s.total_exams || 0}</div><div class="sc-lbl">Exams</div></div>
+    <div class="sc"><div class="sc-icon"><span class="dot"></span></div><div class="sc-val" style="color:var(--green)">${s.active_sessions || 0}</div><div class="sc-lbl">Active Now</div></div>
+  `;
+
+      const liveEl = document.getElementById('dash-live');
+      const live = d.live_exams || [];
+      if (!live.length) {
+        liveEl.innerHTML = `<div class="empty" style="padding:24px"><div class="empty-icon">📡</div><p>No live exams right now</p></div>`;
+      } else {
+        liveEl.innerHTML = `<div class="monitor-grid">${live.map(e => `
+      <div class="monitor-card">
+        <div class="mc-exam">${e.exam_code}</div>
+        <div class="mc-title">${e.title}</div>
+        <div class="mc-meta"><span>${e.target_branch} · ${e.target_section}</span><span>${e.course_name}</span></div>
+      </div>`).join('')}</div>`;
+      }
+
+      const violEl = document.getElementById('dash-viols');
+      const rv = d.recent_violations || [];
+      if (!rv.length) {
+        violEl.innerHTML = `<div class="empty" style="padding:24px"><div class="empty-icon">✅</div><p>No recent violations</p></div>`;
+      } else {
+        violEl.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>Student</th><th>Exam</th><th>Time</th></tr></thead><tbody>
+      ${rv.map(v => `<tr>
+        <td>${v.student_name || v.student_id}</td>
+        <td>${v.exam_code}</td>
+        <td style="color:var(--muted);font-size:11px">${fmt(v.created_at)}</td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+      }
+    }
+
+    // ══════════════════════════════════
+    // USERS
+    // ══════════════════════════════════
+    function filterUsers() {
+      const q = document.getElementById('user-search').value.toLowerCase();
+      const role = document.getElementById('user-role-filter').value;
+      const status = document.getElementById('user-status-filter').value;
+      let filtered = ALL_USERS.filter(u => {
+        const matchQ = !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
+        const matchRole = !role || u.role === role;
+        const matchStat = !status || (status === 'active' ? u.is_active : !u.is_active);
+        return matchQ && matchRole && matchStat;
+      });
+      buildUsersTable(filtered);
+    }
+
+    function renderUsers() { buildUsersTable(ALL_USERS); }
+
+    function buildUsersTable(users) {
+      const tb = document.getElementById('t-users');
+      if (!users.length) { tb.innerHTML = `<tr><td colspan="7"><div class="empty"><p>No users found.</p></div></td></tr>`; return; }
+      tb.innerHTML = users.map(u => `<tr>
+    <td><strong>${u.name}</strong></td>
+    <td style="color:var(--muted)">${u.email}</td>
+    <td><span class="badge b-${u.role}">${u.role}</span></td>
+    <td style="font-size:12px;color:var(--muted)">${u.branch || u.department || '—'}${u.section ? ' · ' + u.section : ''}</td>
+    <td><span class="badge ${u.is_active ? 'b-active' : 'b-blocked'}">${u.is_active ? 'Active' : 'Blocked'}</span></td>
+    <td style="font-size:11px;color:var(--muted)">${fmtDate(u.created_at)}</td>
+    <td>
+      <button class="btn btn-${u.is_active ? 'red' : 'green'} btn-sm" onclick="toggleBlock('${u.id}',${u.is_active})">
+        ${u.is_active ? 'Block' : 'Unblock'}
+      </button>
+    </td>
+  </tr>`).join('');
+    }
+
+    async function toggleBlock(userId, isActive) {
+      try {
+        await api('/admin/users/block', 'PATCH', { user_id: userId, is_active: !isActive });
+        toast(isActive ? 'User blocked' : 'User unblocked', isActive ? 'err' : 'ok');
+        const u = ALL_USERS.find(u => u.id === userId);
+        if (u) u.is_active = !isActive;
+        filterUsers();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    function toggleUserFields() {
+      const role = document.getElementById('u-role').value;
+      document.getElementById('student-fields').style.display = role === 'student' ? 'grid' : 'none';
+      document.getElementById('teacher-fields').style.display = role === 'teacher' ? 'grid' : 'none';
+    }
+
+    async function createUser() {
+      const role = document.getElementById('u-role').value;
+      const body = {
+        name: document.getElementById('u-name').value.trim(),
+        email: document.getElementById('u-email').value.trim(),
+        password: document.getElementById('u-pass').value,
+        role,
+      };
+      if (!body.name || !body.email || !body.password) { toast('Fill all required fields', 'err'); return; }
+      if (role === 'student') {
+        body.branch = document.getElementById('u-branch').value;
+        body.section = document.getElementById('u-section').value;
+        body.semester = parseInt(document.getElementById('u-sem').value) || null;
+        body.roll_number = document.getElementById('u-roll').value;
+        body.batch_year = parseInt(document.getElementById('u-batch').value) || null;
+        if (!body.branch || !body.section) { toast('Branch and section required', 'err'); return; }
+      }
+      if (role === 'teacher') {
+        body.department = document.getElementById('u-dept').value;
+        body.employee_id = document.getElementById('u-empid').value;
+      }
+      try {
+        await api('/admin/users', 'POST', body);
+        toast('User created ✓', 'ok');
+        closeModal('m-user');
+        // Reset form
+        ['u-name', 'u-email', 'u-pass', 'u-roll', 'u-dept', 'u-empid'].forEach(id => {
+          const el = document.getElementById(id); if (el) el.value = '';
+        });
+        await loadAll();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ══════════════════════════════════
+    // BRANCHES
+    // ══════════════════════════════════
+    function renderBranches() {
+      const tb = document.getElementById('t-branches');
+      if (!ALL_BRANCHES.length) {
+        tb.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">🏫</div><p>No branches yet. Add the first branch.</p></div></td></tr>`;
+        return;
+      }
+      tb.innerHTML = ALL_BRANCHES.map(b => {
+        const courseCount = ALL_COURSES.filter(c => c.branch === b.code || c.branch === b.name).length;
+        return `<tr>
+      <td><strong>${b.name}</strong></td>
+      <td><span class="badge b-up">${b.code}</span></td>
+      <td>${courseCount}</td>
+      <td><span class="badge ${b.is_active ? 'b-active' : 'b-blocked'}">${b.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="openModal('m-course');document.getElementById('c-branch').value='${b.code}'">+ Add Course</button></td>
+    </tr>`;
+      }).join('');
+    }
+
+    async function createBranch() {
+      const name = document.getElementById('b-name').value.trim();
+      const code = document.getElementById('b-code').value.trim().toUpperCase();
+      if (!name || !code) { toast('Fill branch name and code', 'err'); return; }
+      try {
+        await api('/admin/branches', 'POST', { name, code });
+        toast('Branch created ✓', 'ok');
+        closeModal('m-branch');
+        document.getElementById('b-name').value = '';
+        document.getElementById('b-code').value = '';
+        await loadAll();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ══════════════════════════════════
+    // COURSES
+    // ══════════════════════════════════
+    function filterCourses() {
+      const branch = document.getElementById('course-branch-filter').value;
+      const filtered = branch ? ALL_COURSES.filter(c => c.branch === branch) : ALL_COURSES;
+      buildCoursesTable(filtered);
+    }
+
+    function renderCourses() { buildCoursesTable(ALL_COURSES); }
+
+    function buildCoursesTable(courses) {
+      const tb = document.getElementById('t-courses');
+      if (!courses.length) { tb.innerHTML = `<tr><td colspan="8"><div class="empty"><p>No courses found.</p></div></td></tr>`; return; }
+      tb.innerHTML = courses.map(c => `<tr>
+    <td><strong>${c.course_name}</strong></td>
+    <td><span class="badge b-up">${c.course_code}</span></td>
+    <td>${c.branch || '—'}</td>
+    <td style="text-align:center">${c.semester || '—'}</td>
+    <td>${c.teacher_name || '<span style="color:var(--muted)">Unassigned</span>'}</td>
+    <td style="text-align:center">${c.credits || '—'}</td>
+    <td style="text-align:center">${c.exam_count || 0}</td>
+    <td>
+      <button class="btn btn-ghost btn-sm" onclick="openAssign('${c.course_id}','${c.course_name}')">Reassign Teacher</button>
+    </td>
+  </tr>`).join('');
+    }
+
+    function populateBranchDropdowns() {
+      const opts = ALL_BRANCHES.map(b => `<option value="${b.code}">${b.name} (${b.code})</option>`).join('');
+      ['c-branch', 'course-branch-filter'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          const placeholder = id === 'course-branch-filter' ? '<option value="">All Branches</option>' : '<option value="">— Select Branch —</option>';
+          el.innerHTML = placeholder + opts;
+        }
+      });
+      // User create student branch dropdown
+      const ubEl = document.getElementById('u-branch');
+      if (ubEl) ubEl.innerHTML = `<option value="">— Select —</option>` + opts;
+    }
+
+    function populateTeacherDropdowns() {
+      const opts = TEACHERS.map(t => `<option value="${t.id}">${t.name} (${t.email})</option>`).join('');
+      ['c-teacher', 'assign-teacher'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<option value="">— Select Teacher —</option>` + opts;
+      });
+    }
+
+    async function createCourse() {
+      const body = {
+        course_name: document.getElementById('c-name').value.trim(),
+        course_code: document.getElementById('c-code').value.trim().toUpperCase(),
+        branch: document.getElementById('c-branch').value,
+        semester: parseInt(document.getElementById('c-sem').value),
+        teacher_id: document.getElementById('c-teacher').value,
+        credits: parseInt(document.getElementById('c-credits').value) || null,
+      };
+      if (!body.course_name || !body.course_code || !body.branch || !body.semester || !body.teacher_id) {
+        toast('Fill all required fields', 'err'); return;
+      }
+      try {
+        await api('/admin/courses', 'POST', body);
+        toast('Course created ✓', 'ok');
+        closeModal('m-course');
+        ['c-name', 'c-code', 'c-credits'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+        await loadAll();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    function openAssign(courseId, courseName) {
+      ASSIGN_COURSE_ID = courseId;
+      document.getElementById('m-assign-course').textContent = `Course: ${courseName}`;
+      populateTeacherDropdowns();
+      openModal('m-assign');
+    }
+
+    async function doAssignTeacher() {
+      const tid = document.getElementById('assign-teacher').value;
+      if (!tid) { toast('Select a teacher', 'err'); return; }
+      try {
+        await api('/admin/courses/assign-teacher', 'PATCH', { course_id: ASSIGN_COURSE_ID, teacher_id: tid });
+        toast('Teacher reassigned ✓', 'ok');
+        closeModal('m-assign');
+        await loadAll();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ══════════════════════════════════
+    // LIVE MONITOR
+    // ══════════════════════════════════
+    async function loadMonitor() {
+      const el = document.getElementById('monitor-content');
+      try {
+        const d = await api('/admin/sessions');
+        const sessions = (d.sessions || []).filter(s => s.state === 'IN_PROGRESS');
+        if (!sessions.length) {
+          el.innerHTML = `<div class="empty"><div class="empty-icon">📡</div><p>No active exam sessions right now.</p></div>`; return;
+        }
+        // Group by exam
+        const byExam = {};
+        sessions.forEach(s => {
+          const key = s.exam_code;
+          if (!byExam[key]) byExam[key] = { title: s.exam_title || s.exam_code, branch: s.target_branch, section: s.target_section, students: [] };
+          byExam[key].students.push(s);
+        });
+        el.innerHTML = `
+      <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+        <div class="sc"><div class="sc-icon"><span class="dot"></span></div><div class="sc-val" style="color:var(--green)">${sessions.length}</div><div class="sc-lbl">Active Students</div></div>
+        <div class="sc"><div class="sc-icon">📝</div><div class="sc-val">${Object.keys(byExam).length}</div><div class="sc-lbl">Active Exams</div></div>
+        <div class="sc"><div class="sc-icon">⚠️</div><div class="sc-val" style="color:var(--red)">${ALL_VIOLATIONS.length}</div><div class="sc-lbl">Total Violations</div></div>
+      </div>
+      <div class="monitor-grid">
+        ${Object.entries(byExam).map(([code, data]) => `
+          <div class="monitor-card">
+            <div class="mc-exam">${code}</div>
+            <div class="mc-title">${data.title}</div>
+            <div class="mc-meta"><span>${data.branch || '—'} · ${data.section || '—'}</span></div>
+            <div style="margin-top:10px;display:flex;align-items:center;gap:8px">
+              <span class="mc-count">${data.students.length}</span>
+              <span style="font-size:12px;color:var(--muted)">students active</span>
+            </div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px;max-height:120px;overflow-y:auto">
+              ${data.students.map(s => `
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+                  <span class="dot"></span>
+                  <span>${s.student_name || s.student_id}</span>
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+      <div style="margin-top:24px">
+        <div class="sh">All Active Sessions</div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Student</th><th>Email</th><th>Exam</th><th>Branch/Section</th><th>State</th><th>Room</th><th>Started</th></tr></thead>
+          <tbody>${sessions.map(s => `<tr>
+            <td><strong>${s.student_name || '—'}</strong></td>
+            <td style="color:var(--muted);font-size:12px">${s.student_email || '—'}</td>
+            <td>${s.exam_title || s.exam_code}</td>
+            <td style="font-size:12px">${s.target_branch || '—'} · ${s.target_section || '—'}</td>
+            <td><span class="badge b-live">${s.state}</span></td>
+            <td style="font-size:11px;color:var(--muted)">${s.livekit_room || '—'}</td>
+            <td style="font-size:11px;color:var(--muted)">${fmt(s.scheduled_at)}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+      </div>`;
+      } catch (e) { el.innerHTML = `<div class="empty"><p>${e.message}</p></div>`; }
+    }
+
+    // ══════════════════════════════════
+    // EXAMS
+    // ══════════════════════════════════
+    function filterExams() {
+      const q = document.getElementById('exam-search').value.toLowerCase();
+      const st = document.getElementById('exam-status-filter').value;
+      const filtered = ALL_EXAMS.filter(e => {
+        const matchQ = !q || e.title.toLowerCase().includes(q) || e.exam_code.toLowerCase().includes(q);
+        const matchSt = !st || examStatus(e) === st;
+        return matchQ && matchSt;
+      });
+      buildExamsTable(filtered);
+    }
+
+    function renderExams() { buildExamsTable(ALL_EXAMS); }
+
+    function buildExamsTable(exams) {
+      const tb = document.getElementById('t-exams');
+      if (!exams.length) { tb.innerHTML = `<tr><td colspan="9"><div class="empty"><p>No exams found.</p></div></td></tr>`; return; }
+      tb.innerHTML = exams.map(e => {
+        const st = examStatus(e);
+        return `<tr>
+      <td><strong>${e.title}</strong><div style="font-size:11px;color:var(--muted)">${e.exam_code}</div></td>
+      <td style="font-size:12px">${e.course_name || '—'}</td>
+      <td style="font-size:12px">${e.target_branch} · ${e.target_section}</td>
+      <td><span class="badge ${e.exam_type === 'real' ? 'b-blocked' : 'b-active'}">${e.exam_type}</span></td>
+      <td style="font-size:11px;color:var(--muted)">${fmt(e.start_time)}<br>→${fmt(e.end_time)}</td>
+      <td>${statusBadge(st)}</td>
+      <td style="text-align:center">${e.submission_count || 0}</td>
+      <td style="text-align:center;color:var(--green)">${e.active_students || 0}</td>
+      <td>
+        <button class="btn btn-${e.is_published ? 'red' : 'green'} btn-sm" onclick="toggleExam('${e.exam_id}',${e.is_published})">
+          ${e.is_published ? 'Disable' : 'Enable'}
+        </button>
+      </td>
+    </tr>`;
+      }).join('');
+    }
+
+    async function toggleExam(examId, isPublished) {
+      try {
+        await api('/admin/exams/toggle', 'PATCH', { exam_id: examId, is_published: !isPublished });
+        toast(isPublished ? 'Exam disabled' : 'Exam enabled', isPublished ? 'err' : 'ok');
+        const e = ALL_EXAMS.find(e => e.exam_id === examId);
+        if (e) e.is_published = !isPublished;
+        buildExamsTable(ALL_EXAMS);
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ══════════════════════════════════
+    // VIOLATIONS
+    // ══════════════════════════════════
+    function filterViolations() {
+      const q = document.getElementById('viol-search').value.toLowerCase();
+      const filtered = ALL_VIOLATIONS.filter(v => {
+        return !q || (v.student_name || '').toLowerCase().includes(q) || (v.exam_code || '').toLowerCase().includes(q);
+      });
+      buildViolTable(filtered);
+    }
+
+    function renderViolations() { buildViolTable(ALL_VIOLATIONS); }
+
+    function buildViolTable(viols) {
+      const tb = document.getElementById('t-violations');
+      if (!viols.length) { tb.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">✅</div><p>No violations recorded.</p></div></td></tr>`; return; }
+      tb.innerHTML = viols.map(v => `<tr>
+    <td><strong>${v.student_name || v.student_id || '—'}</strong></td>
+    <td>${v.exam_title || v.exam_code || '—'}</td>
+    <td style="font-size:12px">${v.violation_type || v.type || '—'}</td>
+    <td><span class="${v.severity === 'high' ? 'sev-high' : v.severity === 'medium' ? 'sev-med' : 'sev-low'}">${v.severity || '—'}</span></td>
+    <td style="font-size:11px;color:var(--muted)">${fmt(v.created_at)}</td>
+  </tr>`).join('');
+    }
+
+    // ══════════════════════════════════
+    // ANALYTICS
+    // ══════════════════════════════════
+    function renderAnalytics() {
+      const el = document.getElementById('analytics-content');
+      const totalStudents = ALL_USERS.filter(u => u.role === 'student').length;
+      const totalTeachers = TEACHERS.length;
+      const totalExams = ALL_EXAMS.length;
+      const liveExams = ALL_EXAMS.filter(e => examStatus(e) === 'live').length;
+      const submittedSubs = ALL_AUDIT.filter(a => a.status === 'submitted' || a.status === 'evaluated').length;
+      const evalSubs = ALL_AUDIT.filter(a => a.status === 'evaluated').length;
+      const maxVal = Math.max(totalStudents, totalTeachers, totalExams, submittedSubs, 1);
+
+      // Avg score
+      const scored = ALL_AUDIT.filter(a => a.obtained_marks != null && a.total_marks > 0);
+      const avgScore = scored.length
+        ? Math.round(scored.reduce((s, a) => s + a.obtained_marks / a.total_marks * 100, 0) / scored.length)
+        : null;
+
+      // Violations by exam
+      const violByExam = {};
+      ALL_VIOLATIONS.forEach(v => { violByExam[v.exam_code] = (violByExam[v.exam_code] || 0) + 1; });
+      const topViol = Object.entries(violByExam).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+      el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted2)">Platform Stats</div>
+        ${[
+          { l: 'Students', v: totalStudents, c: 'var(--blue)' },
+          { l: 'Teachers', v: totalTeachers, c: 'var(--purple)' },
+          { l: 'Total Exams', v: totalExams, c: 'var(--accent)' },
+          { l: 'Submissions', v: submittedSubs, c: 'var(--green)' },
+          { l: 'Evaluated', v: evalSubs, c: 'var(--yellow)' },
+        ].map(b => `<div class="bar-row">
+          <div class="bar-label">${b.l}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(b.v / maxVal) * 100}%;background:${b.c}"></div></div>
+          <div class="bar-val">${b.v}</div>
+        </div>`).join('')}
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted2)">Average Platform Score</div>
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-family:var(--font-h);font-size:52px;font-weight:800;color:${avgScore > 70 ? 'var(--green)' : avgScore > 50 ? 'var(--yellow)' : 'var(--red)'}">${avgScore != null ? avgScore + '%' : '—'}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px">Based on ${scored.length} evaluated submissions</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted2)">Top Violation Exams</div>
+        ${topViol.length
+          ? topViol.map(([code, count]) => `<div class="bar-row">
+              <div class="bar-label">${code}</div>
+              <div class="bar-track"><div class="bar-fill" style="width:${(count / topViol[0][1]) * 100}%;background:var(--red)"></div></div>
+              <div class="bar-val">${count}</div>
+            </div>`).join('')
+          : '<div class="empty" style="padding:20px"><p>No violations recorded.</p></div>'}
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+      <div style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted2)">Courses by Branch</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        ${ALL_BRANCHES.map(b => {
+            const cnt = ALL_COURSES.filter(c => c.branch === b.code || c.branch === b.name).length;
+            return `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 18px;min-width:120px">
+            <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px">${b.code}</div>
+            <div style="font-family:var(--font-h);font-size:22px;font-weight:800">${cnt}</div>
+            <div style="font-size:11px;color:var(--muted)">courses</div>
+          </div>`;
+          }).join('')}
+      </div>
+    </div>`;
+    }
+
+    // ══════════════════════════════════
+    // AUDIT LOG
+    // ══════════════════════════════════
+    function renderAudit() {
+      const tb = document.getElementById('t-audit');
+      if (!ALL_AUDIT.length) { tb.innerHTML = `<tr><td colspan="7"><div class="empty"><p>No audit records.</p></div></td></tr>`; return; }
+      tb.innerHTML = ALL_AUDIT.map(a => `<tr>
+    <td><strong>${a.student_name || '—'}</strong><div style="font-size:11px;color:var(--muted)">${a.student_email || ''}</div></td>
+    <td>${a.exam_title || '—'}<div style="font-size:11px;color:var(--muted)">${a.exam_code || ''}</div></td>
+    <td><span class="badge ${a.status === 'evaluated' ? 'b-active' : a.status === 'submitted' ? 'b-up' : 'b-draft'}">${a.status}</span></td>
+    <td>${a.obtained_marks != null ? `${a.obtained_marks}/${a.total_marks}` : '—'}</td>
+    <td style="font-size:12px;color:var(--muted)">${a.evaluated_by || '—'}</td>
+    <td style="font-size:11px;color:var(--muted)">${fmt(a.started_at)}</td>
+    <td style="font-size:11px;color:var(--muted)">${fmt(a.submitted_at)}</td>
+  </tr>`).join('');
+    }
+  </script>
+</body>
+
+</html>

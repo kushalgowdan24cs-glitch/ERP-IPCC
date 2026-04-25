@@ -7,9 +7,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import asyncpg
 
-# Import our secure enterprise routers
-from routers import auth, exam, telemetry, execute
-
+from backend.routers.erp_auth import router as erp_auth_router
+from backend.routers.student import router as student_router
+from backend.routers.teacher import router as teacher_router
+from backend.routers.admin_erp import router as admin_erp_router
+from backend.routers.admin import router as admin_router
+from backend.routers.websocket_handler import router as websocket_router
+#import our secure enterprise routers
+from backend.routers import auth, exam, telemetry, execute
 # ─── LOGGING SETUP ───
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -54,10 +59,22 @@ app.include_router(auth.router)
 app.include_router(exam.router)
 app.include_router(telemetry.router) 
 app.include_router(execute.router, prefix="/api/v1")
+app.include_router(student_router)
+app.include_router(teacher_router)
+app.include_router(admin_erp_router)
+app.include_router(admin_router)
+app.include_router(websocket_router)
+
+app.include_router(erp_auth_router)
 
 student_photos_dir = Path(__file__).resolve().parent / "student_photos"
 if student_photos_dir.exists():
     app.mount("/student_photos", StaticFiles(directory=str(student_photos_dir)), name="student_photos")
+
+# ─── FRONTEND STATIC FILES ───
+frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+if frontend_dir.exists():
+    app.mount("/frontend", StaticFiles(directory=str(frontend_dir)), name="frontend")
 
 # ─── HEALTH CHECK ───
 @app.get("/health")

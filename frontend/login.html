@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProctorShield — Sign In</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07090f;
+      --surface: #0f1117;
+      --surface2: #161b25;
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.14);
+      --text: #e8eaf2;
+      --muted: #6b7280;
+      --muted2: #9ca3af;
+      --student: #4f8eff;
+      --student-dim: rgba(79, 142, 255, .12);
+      --teacher: #a78bfa;
+      --teacher-dim: rgba(167, 139, 250, .12);
+      --admin: #ff6b35;
+      --admin-dim: rgba(255, 107, 53, .12);
+      --green: #00e5a0;
+      --red: #ff4f6a;
+      --font-h: Times new roman, sans-serif;
+      --font-b: 'times new roman', sans-serif;
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface2: #e8edf3;
+      --surface3: #dde3eb;
+      --border: rgba(0, 0, 0, 0.08);
+      --border2: rgba(0, 0, 0, 0.14);
+      --text: #1a202c;
+      --muted: #64748b;
+      --muted2: #475569;
+      --accent: #2563eb;
+      --accent-dim: rgba(37, 99, 235, 0.1);
+      --blue: #2563eb;
+      --blue-dim: rgba(37, 99, 235, 0.1);
+      --green: #059669;
+      --green-dim: rgba(5, 150, 105, 0.1);
+      --red: #dc2626;
+      --red-dim: rgba(220, 38, 38, 0.1);
+      --yellow: #d97706;
+      --yellow-dim: rgba(217, 119, 6, 0.1);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --card-glow: rgba(37, 99, 235, 0.06);
+    }
+
+    body.light .sb {
+      background: #ffffff;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    body.light table thead th {
+      background: #e8edf3;
+    }
+
+    body.light .field input,
+    body.light .field select,
+    body.light .field textarea {
+      background: #f8fafc;
+      color: #1a202c;
+    }
+
+    body.light .tbl-wrap {
+      background: #ffffff;
+    }
+
+    body.light .modal {
+      background: #ffffff;
+    }
+
+    body.light .toast {
+      background: #ffffff;
+      color: #1a202c;
+    }
+
+    body.light .wrap {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    body.light .left {
+      background: #e8edf3;
+    }
+
+    body.light .role-btn {
+      background: #f8fafc;
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    body.light .role-btn.on {
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    body.light .btn-sign {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+    }
+
+    body.light .field input {
+      background: #f8fafc;
+      border-color: rgba(0, 0, 0, 0.12);
+      color: #1a202c;
+    }
+
+    body.light .field input::placeholder {
+      color: #94a3b8;
+    }
+
+    body.light .bg-grid {
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 20%, rgba(79, 142, 255, .07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 70%, rgba(167, 139, 250, .06) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 50% 90%, rgba(0, 229, 160, .04) 0%, transparent 50%);
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      animation: drift 30s linear infinite;
+    }
+
+    @keyframes drift {
+      to {
+        background-position: 56px 56px
+      }
+    }
+
+    /* ── WRAPPER ── */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 0;
+      width: 860px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 120px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .04);
+      animation: up .6s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ── LEFT PANEL ── */
+    .left {
+      width: 380px;
+      flex-shrink: 0;
+      background: var(--surface2);
+      border-right: 1px solid var(--border);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .left::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--role-color, rgba(79, 142, 255, .15)) 0%, transparent 70%);
+      transition: background .4s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--role-color, #4f8eff), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      transition: background .4s;
+    }
+
+    .brand-name {
+      font-family: var(--font-h);
+      font-size: 17px;
+      font-weight: 800
+    }
+
+    .brand-name span {
+      color: var(--role-color, var(--student));
+      transition: color .4s
+    }
+
+    .left-title {
+      font-family: var(--font-h);
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px
+    }
+
+    .left-sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 36px
+    }
+
+    /* Role selector */
+    .role-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 10px
+    }
+
+    .roles {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .role-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-b);
+    }
+
+    .role-btn:hover {
+      border-color: var(--border2)
+    }
+
+    .role-btn.on {
+      border-color: var(--role-color, var(--student));
+      background: rgba(79, 142, 255, .06)
+    }
+
+    .role-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      transition: all .2s;
+    }
+
+    .role-btn.on .role-icon {
+      background: var(--role-color-dim, var(--student-dim));
+      border-color: var(--role-color, var(--student))
+    }
+
+    .role-info {
+      flex: 1
+    }
+
+    .role-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2
+    }
+
+    .role-desc {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .role-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+
+    .role-btn.on .role-check {
+      background: var(--role-color, var(--student));
+      border-color: var(--role-color, var(--student));
+      color: #fff;
+    }
+
+    /* Info strip at bottom */
+    .left-footer {
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .left-footer strong {
+      color: var(--muted2)
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right {
+      flex: 1;
+      padding: 48px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-header {
+      margin-bottom: 32px
+    }
+
+    .form-title {
+      font-family: var(--font-h);
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .form-sub {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .field {
+      margin-bottom: 18px
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 15px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field input:focus {
+      border-color: var(--role-color, var(--student));
+      box-shadow: 0 0 0 3px var(--role-color-dim, var(--student-dim));
+    }
+
+    .field input::placeholder {
+      color: var(--muted)
+    }
+
+    .btn-sign {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--role-color, var(--student)) 0%, #7c3aed 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: var(--font-h);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      letter-spacing: .3px;
+      margin-top: 4px;
+    }
+
+    .btn-sign:hover {
+      opacity: .88
+    }
+
+    .btn-sign:active {
+      transform: scale(.98)
+    }
+
+    .btn-sign:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .err {
+      margin-top: 14px;
+      padding: 11px 14px;
+      background: rgba(255, 79, 106, .1);
+      border: 1px solid rgba(255, 79, 106, .25);
+      border-radius: 9px;
+      color: var(--red);
+      font-size: 13px;
+      display: none;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--role-color-dim, var(--student-dim));
+      color: var(--role-color, var(--student));
+      border: 1px solid var(--role-color, var(--student));
+      opacity: .7;
+      transition: all .3s;
+    }
+
+    /* ── ROLE COLOR OVERRIDES ── */
+    body.role-student {
+      --role-color: var(--student);
+      --role-color-dim: var(--student-dim);
+    }
+
+    body.role-teacher {
+      --role-color: var(--teacher);
+      --role-color-dim: var(--teacher-dim);
+    }
+
+    body.role-admin {
+      --role-color: var(--admin);
+      --role-color-dim: var(--admin-dim);
+    }
+  </style>
+</head>
+
+<body class="role-student">
+
+  <button onclick="toggleTheme()" style="
+  position:absolute;top:20px;right:20px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:50%;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;
+" id="theme-btn">🌙</button>
+
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+
+  <div class="wrap">
+
+    <!-- LEFT: role selector -->
+    <div class="left">
+      <div class="brand">
+        <div class="brand-icon">🛡</div>
+        <div class="brand-name">Proctor<span id="brand-span">Shield</span></div>
+      </div>
+
+      <div class="left-title">Welcome back</div>
+      <div class="left-sub">Select your role to access your personalised dashboard and tools.</div>
+
+      <div class="role-label">Sign in as</div>
+      <div class="roles">
+        <div class="role-btn on" id="rb-student" onclick="setRole('student')">
+          <div class="role-icon">🎓</div>
+          <div class="role-info">
+            <div class="role-name">Student</div>
+            <div class="role-desc">View exams, submit answers</div>
+          </div>
+          <div class="role-check">✓</div>
+        </div>
+        <div class="role-btn" id="rb-teacher" onclick="setRole('teacher')">
+          <div class="role-icon">👨‍🏫</div>
+          <div class="role-info">
+            <div class="role-name">Teacher</div>
+            <div class="role-desc">Create exams, evaluate</div>
+          </div>
+          <div class="role-check"></div>
+        </div>
+        <div class="role-btn" id="rb-admin" onclick="setRole('admin')">
+          <div class="role-icon">🛡</div>
+          <div class="role-info">
+            <div class="role-name">Admin</div>
+            <div class="role-desc">Manage platform & users</div>
+          </div>
+          <div class="role-check"></div>
+        </div>
+      </div>
+
+      <div class="left-footer">
+        <strong>ProctorShield</strong> — AI-powered exam proctoring platform.<br>
+        All login activity is logged and monitored.
+      </div>
+    </div>
+
+    <!-- RIGHT: login form -->
+    <div class="right">
+      <button onclick="toggleTheme()" id="theme-btn" style="
+    position:absolute;top:20px;right:20px;
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:50%;width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:17px;z-index:10;
+  ">☀️</button>
+      <div class="form-header">
+        <div class="form-title" id="form-title">Student Sign In</div>
+        <div class="form-sub" id="form-sub">Access your courses and upcoming exams</div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <span class="role-badge" id="role-badge">🎓 Student Portal</span>
+      </div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <input id="i-email" type="email" placeholder="your@email.com" autocomplete="new-password" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="i-pass" type="password" placeholder="••••••••" autocomplete="new-password" />
+      </div>
+
+
+      <button class="btn-sign" id="btn-sign" onclick="doLogin()">
+        Sign In →
+      </button>
+
+      <div class="err" id="err-box"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const BASE = 'http://localhost:8000';
+    let ROLE = 'student';
+
+    // ── THEME ──────────────────────────────────────────────
+    const THEME_KEY = 'ps_theme';
+
+    function applyTheme(theme) {
+      document.body.classList.toggle('light', theme === 'light');
+      const btn = document.getElementById('theme-btn');
+      if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+    function toggleTheme() {
+      const current = localStorage.getItem(THEME_KEY) || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    }
+
+    // Apply saved theme on load
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    document.querySelector('#i-email').value = '';
+    document.querySelector('#i-pass').value = '';
+    const META = {
+      student: {
+        title: 'Student Sign In',
+        sub: 'Access your courses and upcoming exams',
+        badge: '🎓 Student Portal',
+        redirect: 'student.html',
+        tokenKey: 'ps_tok',
+        userKey: 'ps_usr',
+      },
+      teacher: {
+        title: 'Teacher Sign In',
+        sub: 'Manage your courses, exams and evaluations',
+        badge: '👨‍🏫 Teacher Portal',
+        redirect: 'teacher.html',
+        tokenKey: 'ps_t_tok',
+        userKey: 'ps_t_usr',
+      },
+      admin: {
+        title: 'Admin Sign In',
+        sub: 'Full platform control and monitoring',
+        badge: '🛡 Admin Dashboard',
+        redirect: 'admin.html',
+        tokenKey: 'ps_a_tok',
+        userKey: 'ps_a_usr',
+      },
+    };
+
+
+    // ── Auto-redirect if already logged in ──
+    (function () {
+      for (const [role, m] of Object.entries(META)) {
+        const tok = localStorage.getItem(m.tokenKey);
+        const usr = localStorage.getItem(m.userKey);
+        if (tok && usr) {
+          const user = JSON.parse(usr);
+          if (user.role === role) {
+            window.location.href = m.redirect;
+            return;
+          }
+        }
+      }
+      document.getElementById('i-pass').addEventListener('keydown', e => {
+        if (e.key === 'Enter') doLogin();
+      });
+    })();
+
+    // ── Role switcher ──
+    function setRole(role) {
+      ROLE = role;
+      // Remove old role classes but preserve light/dark
+      document.body.classList.remove('role-student', 'role-teacher', 'role-admin');
+      document.body.classList.add('role-' + role);
+
+      ['student', 'teacher', 'admin'].forEach(r => {
+        document.getElementById('rb-' + r).classList.toggle('on', r === role);
+        const check = document.querySelector(`#rb-${r} .role-check`);
+        check.textContent = r === role ? '✓' : '';
+      });
+
+      const m = META[role];
+      document.getElementById('form-title').textContent = m.title;
+      document.getElementById('form-sub').textContent = m.sub;
+      document.getElementById('role-badge').textContent = m.badge;
+      document.getElementById('err-box').style.display = 'none';
+    }
+
+    // ── Login ──
+    async function doLogin() {
+      const email = document.getElementById('i-email').value.trim();
+      const pass = document.getElementById('i-pass').value;
+      const err = document.getElementById('err-box');
+      const btn = document.getElementById('btn-sign');
+
+      err.style.display = 'none';
+      if (!email || !pass) {
+        err.textContent = 'Please enter your email and password.';
+        err.style.display = 'block'; return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Signing in…';
+
+      try {
+        const res = await fetch(BASE + '/erp/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password: pass }),
+        });
+
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({ detail: 'Login failed' }));
+          throw new Error(e.detail || 'Login failed');
+        }
+
+        const data = await res.json();
+
+        // Role guard — must match selected role
+        if (data.user.role !== ROLE) {
+          err.textContent = `This account is a ${data.user.role}. Please select the correct role.`;
+          err.style.display = 'block';
+          btn.disabled = false; btn.textContent = 'Sign In →';
+          // Highlight the correct role
+          setRole(data.user.role);
+          return;
+        }
+
+        const m = META[ROLE];
+        localStorage.setItem(m.tokenKey, data.access_token);
+        localStorage.setItem(m.userKey, JSON.stringify(data.user));
+
+        btn.textContent = '✓ Redirecting…';
+        setTimeout(() => { window.location.href = m.redirect; }, 400);
+
+      } catch (e) {
+        err.textContent = e.message;
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Sign In →';
+      }
+    }
+  </script>
+</body>
+
+</html>

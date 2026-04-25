@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import logging
 import json
-from services.session_manager import manager
+from backend.services.session_manager import manager
 
 router = APIRouter()
 logger = logging.getLogger("proctorshield.ws")

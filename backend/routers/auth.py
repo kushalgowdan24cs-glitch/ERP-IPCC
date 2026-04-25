@@ -88,8 +88,11 @@ def decode_exam_token(erp_jwt_token: str):
         student_name = payload.get("name") or student_id
         exam_code = payload.get("exam_code")
 
-        if not student_id or not exam_code:
-            raise ValueError("Missing required claims in JWT")
+        if not exam_code:
+            raise HTTPException(
+                status_code=400,
+                detail="Exam token required (missing exam_code claim)"
+    )
 
         return student_id, student_name, exam_code
     except jwt.ExpiredSignatureError:

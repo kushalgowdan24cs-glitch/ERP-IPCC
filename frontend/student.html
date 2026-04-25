@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProctorShield — Student Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
+    :root {
+      --bg: #07090f;
+      --surface: #0f1117;
+      --surface2: #161b25;
+      --surface3: #1c2333;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.12);
+      --accent: #4f8eff;
+      --accent-dim: rgba(79, 142, 255, .12);
+      --green: #00e5a0;
+      --green-dim: rgba(0, 229, 160, .12);
+      --red: #ff4f6a;
+      --red-dim: rgba(255, 79, 106, .12);
+      --yellow: #ffb84f;
+      --yellow-dim: rgba(255, 184, 79, .12);
+      --text: #e8eaf2;
+      --muted: #6b7280;
+      --muted2: #9ca3af;
+      --font-h: 'Syne', sans-serif;
+      --font-b: 'DM Sans', sans-serif;
+      --r: 12px;
+      --r-sm: 8px;
+      --r-lg: 18px;
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface2: #e8edf3;
+      --surface3: #dde3eb;
+      --border: rgba(0, 0, 0, 0.08);
+      --border2: rgba(0, 0, 0, 0.14);
+      --text: #1a202c;
+      --muted: #64748b;
+      --muted2: #475569;
+      --accent: #2563eb;
+      --accent-dim: rgba(37, 99, 235, 0.1);
+      --blue: #2563eb;
+      --blue-dim: rgba(37, 99, 235, 0.1);
+      --green: #059669;
+      --green-dim: rgba(5, 150, 105, 0.1);
+      --red: #dc2626;
+      --red-dim: rgba(220, 38, 38, 0.1);
+      --yellow: #d97706;
+      --yellow-dim: rgba(217, 119, 6, 0.1);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --card-glow: rgba(37, 99, 235, 0.06);
+    }
+
+    body.light .sb {
+      background: #ffffff;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    body.light table thead th {
+      background: #e8edf3;
+    }
+
+    body.light .field input,
+    body.light .field select,
+    body.light .field textarea {
+      background: #f8fafc;
+      color: #1a202c;
+    }
+
+    body.light .tbl-wrap {
+      background: #ffffff;
+    }
+
+    body.light .modal {
+      background: #ffffff;
+    }
+
+    body.light .toast {
+      background: #ffffff;
+      color: #1a202c;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 4px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    /* ═══════════════════════════════════════
+   BADGES
+═══════════════════════════════════════ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    .b-live {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(0, 229, 160, .2)
+    }
+
+    .b-upcoming {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(79, 142, 255, .2)
+    }
+
+    .b-done {
+      background: rgba(107, 114, 128, .12);
+      color: var(--muted2);
+      border: 1px solid rgba(107, 114, 128, .2)
+    }
+
+    .b-pending {
+      background: var(--yellow-dim);
+      color: var(--yellow);
+      border: 1px solid rgba(255, 184, 79, .2)
+    }
+
+    .b-real {
+      background: var(--red-dim);
+      color: var(--red)
+    }
+
+    .b-practice {
+      background: var(--green-dim);
+      color: var(--green)
+    }
+
+    /* ═══════════════════════════════════════
+   LIVE DOT
+═══════════════════════════════════════ */
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: blink 1.4s ease-in-out infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    /* ═══════════════════════════════════════
+   LOGIN PAGE
+═══════════════════════════════════════ */
+    #pg-login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* mesh background */
+    #pg-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(79, 142, 255, .08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0, 229, 160, .06) 0%, transparent 55%);
+    }
+
+    /* grid lines */
+    #pg-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(79, 142, 255, .04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 142, 255, .04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridDrift 25s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      to {
+        background-position: 40px 40px
+      }
+    }
+
+    .lc {
+      position: relative;
+      z-index: 2;
+      width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 48px 40px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .6), 0 0 0 1px rgba(79, 142, 255, .08);
+      animation: rise .55s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(28px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .lc-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 32px
+    }
+
+    .lc-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px
+    }
+
+    .lc-brand {
+      font-family: var(--font-h);
+      font-size: 19px;
+      font-weight: 800
+    }
+
+    .lc-brand span {
+      color: var(--accent)
+    }
+
+    .lc-title {
+      font-family: var(--font-h);
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .lc-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 30px
+    }
+
+    .field {
+      margin-bottom: 16px
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      margin-bottom: 7px
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79, 142, 255, .13)
+    }
+
+    .field input::placeholder {
+      color: var(--muted)
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+      border: none;
+      border-radius: var(--r-sm);
+      color: #fff;
+      font-family: var(--font-h);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      letter-spacing: .3px;
+    }
+
+    .btn-primary:hover {
+      opacity: .88
+    }
+
+    .btn-primary:active {
+      transform: scale(.98)
+    }
+
+    .btn-primary:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .lc-err {
+      margin-top: 12px;
+      padding: 11px 14px;
+      background: var(--red-dim);
+      border: 1px solid rgba(255, 79, 106, .25);
+      border-radius: var(--r-sm);
+      color: var(--red);
+      font-size: 13px;
+      display: none;
+    }
+
+    /* ═══════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════ */
+    #pg-app {
+      display: none;
+      min-height: 100vh
+    }
+
+    /* SIDEBAR */
+    .sb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 232px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 14px;
+      z-index: 100;
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 8px;
+      margin-bottom: 30px;
+      font-family: var(--font-h);
+      font-size: 16px;
+      font-weight: 800
+    }
+
+    .sb-brand span {
+      color: var(--accent)
+    }
+
+    .sb-brand .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px
+    }
+
+    .sb-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      padding: 0 10px;
+      margin: 18px 0 5px
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 10px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all .15s;
+      user-select: none
+    }
+
+    .nav:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
+
+    .nav.on {
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .nav .ni {
+      font-size: 16px;
+      width: 20px;
+      text-align: center
+    }
+
+    .sb-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border)
+    }
+
+    .u-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px
+    }
+
+    .u-av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .u-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2
+    }
+
+    .u-role {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: 232px;
+      padding: 32px 36px;
+      min-height: 100vh
+    }
+
+    /* PAGE SECTIONS */
+    .pg {
+      display: none
+    }
+
+    .pg.on {
+      display: block
+    }
+
+    /* PAGE HEADER */
+    .ph {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px
+    }
+
+    .ph-title {
+      font-family: var(--font-h);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.4px
+    }
+
+    .ph-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px
+    }
+
+    /* STAT CARDS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px
+    }
+
+    .sc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 22px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sc:hover {
+      border-color: rgba(79, 142, 255, .25);
+      transform: translateY(-2px)
+    }
+
+    .sc::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-dim)
+    }
+
+    .sc-icon {
+      font-size: 20px;
+      margin-bottom: 10px
+    }
+
+    .sc-val {
+      font-family: var(--font-h);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 3px
+    }
+
+    .sc-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    /* SECTION HEADING */
+    .sh {
+      font-family: var(--font-h);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted2)
+    }
+
+    .sh::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    /* ═══════════════════════════════════════
+   EXAM CARDS
+═══════════════════════════════════════ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 18px
+    }
+
+    .ec {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ec:hover {
+      border-color: rgba(79, 142, 255, .2);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, .35)
+    }
+
+    /* live card accent */
+    .ec.live {
+      border-color: rgba(0, 229, 160, .2);
+      background: linear-gradient(160deg, var(--surface), rgba(0, 229, 160, .025))
+    }
+
+    .ec.live::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), transparent)
+    }
+
+    /* completed card */
+    .ec.done {
+      opacity: .75
+    }
+
+    .ec-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px
+    }
+
+    .ec-course {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      color: var(--accent);
+      margin-bottom: 5px
+    }
+
+    .ec-title {
+      font-family: var(--font-h);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3
+    }
+
+    .ec-teacher {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px
+    }
+
+    .ec-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .em {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .em .i {
+      font-size: 13px;
+      width: 16px;
+      text-align: center;
+      flex-shrink: 0
+    }
+
+    .em strong {
+      color: var(--muted2);
+      font-weight: 500
+    }
+
+    .ec-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Progress bar */
+    .pbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1
+    }
+
+    .ptrack {
+      flex: 1;
+      height: 5px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden
+    }
+
+    .pfill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      transition: width .7s ease
+    }
+
+    .plabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 32px
+    }
+
+    /* Buttons */
+    .btn-start {
+      padding: 8px 18px;
+      background: linear-gradient(135deg, var(--green), #00b377);
+      border: none;
+      border-radius: 7px;
+      color: #07090f;
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      white-space: nowrap;
+    }
+
+    .btn-start:hover {
+      opacity: .88
+    }
+
+    .btn-start:active {
+      transform: scale(.97)
+    }
+
+    .btn-off {
+      padding: 8px 18px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--muted);
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: not-allowed;
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════
+   COURSE CARDS
+═══════════════════════════════════════ */
+    .cgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px
+    }
+
+    .cc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cc:hover {
+      border-color: rgba(0, 229, 160, .2);
+      transform: translateY(-2px)
+    }
+
+    .cc::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent), var(--green))
+    }
+
+    .cc-code {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--green);
+      margin-bottom: 5px
+    }
+
+    .cc-name {
+      font-family: var(--font-h);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px
+    }
+
+    .cc-teacher {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .cc-credits {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    /* ═══════════════════════════════════════
+   TABLE (Results / Violations)
+═══════════════════════════════════════ */
+    .tbl-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    th {
+      background: var(--surface2);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      padding: 13px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap
+    }
+
+    td {
+      padding: 13px 18px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, .015)
+    }
+
+    /* ═══════════════════════════════════════
+   ANALYTICS
+═══════════════════════════════════════ */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 24px
+    }
+
+    .an-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px
+    }
+
+    .an-title {
+      font-family: var(--font-h);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--muted2)
+    }
+
+    /* Simple bar chart */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: var(--muted);
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--surface3);
+      border-radius: 4px;
+      overflow: hidden
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      transition: width .8s ease
+    }
+
+    .bar-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      width: 36px;
+      flex-shrink: 0
+    }
+
+    /* Score circle */
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0deg, var(--green) var(--pct, 0deg), var(--surface3) var(--pct, 0deg) 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 auto 14px;
+    }
+
+    .score-circle::after {
+      content: '';
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+
+    .score-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center
+    }
+
+    .score-val {
+      font-family: var(--font-h);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1
+    }
+
+    .score-unit {
+      font-size: 10px;
+      color: var(--muted)
+    }
+
+    /* ═══════════════════════════════════════
+   EMPTY & SPINNER
+═══════════════════════════════════════ */
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--muted)
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: .4
+    }
+
+    .empty p {
+      font-size: 13px
+    }
+
+    .spin {
+      width: 32px;
+      height: 32px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: sp .65s linear infinite;
+      margin: 40px auto
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+    #toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 9999
+    }
+
+    .toast {
+      padding: 12px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+      animation: tin .3s ease both;
+      min-width: 240px
+    }
+
+    .toast.ok {
+      border-left: 3px solid var(--green)
+    }
+
+    .toast.err {
+      border-left: 3px solid var(--red)
+    }
+
+    .toast.info {
+      border-left: 3px solid var(--accent)
+    }
+
+    @keyframes tin {
+      from {
+        opacity: 0;
+        transform: translateX(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    /* ═══════════════════════════════════════
+   VIOLATION LOG
+═══════════════════════════════════════ */
+    .viol-note {
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      background: var(--yellow-dim);
+      border: 1px solid rgba(255, 184, 79, .2);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      color: var(--yellow);
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- ══════════ APP SHELL ══════════ -->
+  <div id="pg-app">
+
+    <!-- SIDEBAR -->
+    <aside class="sb">
+      <div class="sb-brand">
+        <div class="icon">🛡</div>
+        Proctor<span>Shield</span>
+      </div>
+
+      <div class="sb-label">Main</div>
+      <div class="nav on" id="n-dash" onclick="go('dash')"> <span class="ni">⊞</span> Dashboard</div>
+      <div class="nav" id="n-exams" onclick="go('exams')"> <span class="ni">📝</span> My Exams</div>
+      <div class="nav" id="n-courses" onclick="go('courses')"><span class="ni">📚</span> Courses</div>
+
+      <div class="sb-label">Performance</div>
+      <div class="nav" id="n-results" onclick="go('results')"> <span class="ni">📊</span> Results</div>
+      <div class="nav" id="n-analytics" onclick="go('analytics')"> <span class="ni">📈</span> Analytics</div>
+      <div class="nav" id="n-violations" onclick="go('violations')"><span class="ni">⚠️</span> Violations <span
+          style="font-size:10px;color:var(--muted);margin-left:4px">(soon)</span></div>
+
+      <div class="sb-footer">
+        <div class="u-pill">
+          <div class="u-av" id="sb-av">S</div>
+          <div>
+            <div class="u-name" id="sb-name">—</div>
+            <div class="u-role" id="sb-meta">Student</div>
+          </div>
+        </div>
+        <div class="nav" onclick="toggleTheme()" id="theme-btn" style="margin-bottom:4px">
+          <span class="ni" id="theme-icon">🌙</span> <span id="theme-label">Dark Mode</span>
+        </div>
+        <div class="nav" onclick="doLogout()" style="color:var(--red);margin-top:4px">
+          <span class="ni">↩</span> Logout
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="pg on" id="pg-dash">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Welcome back, <span id="d-name">Student</span> 👋</div>
+            <div class="ph-sub" id="d-meta">Loading your profile…</div>
+          </div>
+          <div id="d-time" style="font-size:13px;color:var(--muted);text-align:right;padding-top:4px"></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+          <div class="sc">
+            <div class="sc-icon">📚</div>
+            <div class="sc-val" id="s-courses">—</div>
+            <div class="sc-lbl">Courses</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon">📝</div>
+            <div class="sc-val" id="s-total">—</div>
+            <div class="sc-lbl">Total Exams</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon"><span class="dot"></span></div>
+            <div class="sc-val" id="s-live">—</div>
+            <div class="sc-lbl">Live Now</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon">✅</div>
+            <div class="sc-val" id="s-done">—</div>
+            <div class="sc-lbl">Submitted</div>
+          </div>
+        </div>
+
+        <!-- Live exams -->
+        <div class="sh" id="sh-live">Live Exams</div>
+        <div class="grid" id="g-live">
+          <div class="spin"></div>
+        </div>
+
+        <!-- Upcoming -->
+        <div class="sh" style="margin-top:24px" id="sh-up">Upcoming Exams</div>
+        <div class="grid" id="g-upcoming">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── MY EXAMS ── -->
+      <div class="pg" id="pg-exams">
+        <div class="ph">
+          <div>
+            <div class="ph-title">My Exams</div>
+            <div class="ph-sub">All exams assigned to your branch and section</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px" id="exam-filters">
+            <button class="filter-btn on" onclick="filterExams('all',this)">All</button>
+            <button class="filter-btn" onclick="filterExams('live',this)">Live</button>
+            <button class="filter-btn" onclick="filterExams('upcoming',this)">Upcoming</button>
+            <button class="filter-btn" onclick="filterExams('done',this)">Completed</button>
+          </div>
+        </div>
+        <div class="grid" id="g-exams">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── COURSES ── -->
+      <div class="pg" id="pg-courses">
+        <div class="ph">
+          <div>
+            <div class="ph-title">My Courses</div>
+            <div class="ph-sub" id="c-meta">—</div>
+          </div>
+        </div>
+        <div class="cgrid" id="g-courses">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── RESULTS ── -->
+      <div class="pg" id="pg-results">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Results & History</div>
+            <div class="ph-sub">Your exam submissions and evaluations</div>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Exam</th>
+                <th>Course</th>
+                <th>Type</th>
+                <th>Score</th>
+                <th>Performance</th>
+                <th>Status</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="t-results">
+              <tr>
+                <td colspan="7">
+                  <div class="spin"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── ANALYTICS ── -->
+      <div class="pg" id="pg-analytics">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Performance Analytics</div>
+            <div class="ph-sub">Your academic performance overview</div>
+          </div>
+        </div>
+        <div class="analytics-grid">
+          <div class="an-card">
+            <div class="an-title">Overall Average Score</div>
+            <div class="score-circle" id="avg-circle">
+              <div class="score-inner">
+                <div class="score-val" id="avg-val">—</div>
+                <div class="score-unit">AVG %</div>
+              </div>
+            </div>
+            <div style="text-align:center;font-size:12px;color:var(--muted)" id="avg-sub">Based on evaluated exams</div>
+          </div>
+          <div class="an-card">
+            <div class="an-title">Exam Summary</div>
+            <div id="exam-summary-bars">
+              <div class="spin"></div>
+            </div>
+          </div>
+        </div>
+        <div class="an-card">
+          <div class="an-title">Score per Exam</div>
+          <div id="score-bars">
+            <div class="spin"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VIOLATIONS ── -->
+      <div class="pg" id="pg-violations">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Violation Logs</div>
+            <div class="ph-sub">Proctoring alerts recorded during your exams</div>
+          </div>
+        </div>
+        <div class="viol-note">⚠️ This section is future-ready. Violation data will appear here once the proctoring
+          integration is complete.</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Exam</th>
+                <th>Type</th>
+                <th>Severity</th>
+                <th>Recorded At</th>
+              </tr>
+            </thead>
+            <tbody id="t-viols">
+              <tr>
+                <td colspan="4">
+                  <div class="empty">
+                    <div class="empty-icon">🔍</div>
+                    <p>No violations recorded.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <style>
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-b);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .filter-btn.on {
+      background: var(--accent-dim);
+      border-color: rgba(79, 142, 255, .3);
+      color: var(--accent)
+    }
+  </style>
+
+  <script>
+    // ═══════════════════════════════════
+    // CONFIG  ← update if your port differs
+    // ═══════════════════════════════════
+    const BASE = 'http://localhost:8000';
+
+    // ═══════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════
+    let TOKEN = localStorage.getItem('ps_tok') || null;
+    let USER = JSON.parse(localStorage.getItem('ps_usr') || 'null');
+    let EXAMS = [];
+    let COURSES = [];
+    let RESULTS = [];
+
+    // ── THEME ──────────────────────────────────────────────
+    const THEME_KEY = 'ps_theme';
+
+    function applyTheme(theme) {
+      document.body.classList.toggle('light', theme === 'light');
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (icon) icon.textContent = theme === 'light' ? '🌙' : '☀️';
+      if (label) label.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem(THEME_KEY) || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    }
+
+    // Apply saved theme on load
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    // ═══════════════════════════════════
+
+    // ═══════════════════════════════════
+    (function () {
+
+      // clock
+      setInterval(() => {
+        const el = document.getElementById('d-time');
+        if (el) el.textContent = new Date().toLocaleString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+      }, 1000);
+
+      if (!TOKEN || !USER) {
+        window.location.href = 'login.html'; return;
+      }
+      if (USER.role !== 'student') {
+        window.location.href = 'login.html'; return;
+      }
+      // Live countdown — re-renders dashboard and exams every second
+      setInterval(() => {
+        // Update all countdown buttons without full re-render
+        document.querySelectorAll('[data-countdown]').forEach(el => {
+          const iso = el.getAttribute('data-countdown');
+          const status = el.getAttribute('data-status');
+          if (status === 'upcoming') {
+            const diff = new Date(iso) - new Date();
+            if (diff <= 0) {
+              // Exam just went live — full reload
+              loadAll();
+            } else {
+              el.textContent = '⏳ ' + timeDiff(iso);
+            }
+          }
+        });
+      }, 1000);
+      showApp();
+    })();
+    // ═══════════════════════════════════
+    // API HELPER
+    // ═══════════════════════════════════
+    async function api(path, method = 'GET', body = null) {
+      const r = await fetch(BASE + path, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(TOKEN ? { 'Authorization': 'Bearer ' + TOKEN } : {})
+        },
+        ...(body ? { body: JSON.stringify(body) } : {})
+      });
+      if (!r.ok) {
+        const e = await r.json().catch(() => ({ detail: 'Unknown error' }));
+        throw new Error(e.detail || r.statusText);
+      }
+      return r.json();
+    }
+
+    // ═══════════════════════════════════
+    // TOAST
+    // ═══════════════════════════════════
+    function toast(msg, type = 'ok') {
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      el.textContent = msg;
+      document.getElementById('toast-box').appendChild(el);
+      setTimeout(() => el.remove(), 3200);
+    }
+
+    // ═══════════════════════════════════
+    // LOGIN
+    // ═══════════════════════════════════
+    async function doLogin() {
+      const email = document.getElementById('i-email').value.trim();
+      const pass = document.getElementById('i-pass').value;
+      const err = document.getElementById('lc-err');
+      const btn = document.getElementById('btn-login');
+      err.style.display = 'none';
+
+      if (!email || !pass) { err.textContent = 'Enter your email and password.'; err.style.display = 'block'; return; }
+
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        const d = await api('/erp/login', 'POST', { email, password: pass });
+        if (d.user.role !== 'student') {
+          err.textContent = 'This portal is for students only.';
+          err.style.display = 'block';
+          btn.disabled = false; btn.textContent = 'Sign In →'; return;
+        }
+        TOKEN = d.access_token; USER = d.user;
+        localStorage.setItem('ps_tok', TOKEN);
+        localStorage.setItem('ps_usr', JSON.stringify(USER));
+        showApp();
+      } catch (e) {
+        err.textContent = e.message;
+        err.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Sign In →';
+      }
+    }
+
+    // ═══════════════════════════════════
+    // SHOW APP
+    // ═══════════════════════════════════
+    function showApp() {
+
+      document.getElementById('pg-app').style.display = 'block';
+
+      const initials = USER.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('sb-av').textContent = initials;
+      document.getElementById('sb-name').textContent = USER.name;
+      document.getElementById('d-name').textContent = USER.name.split(' ')[0];
+
+      loadAll();
+    }
+
+    // ═══════════════════════════════════
+    // LOGOUT
+    // ═══════════════════════════════════
+    function doLogout() {
+      TOKEN = null; USER = null;
+      localStorage.removeItem('ps_tok');
+      localStorage.removeItem('ps_usr');
+      window.location.href = 'login.html';
+    }
+
+    // ═══════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════
+    function go(name) {
+      document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.nav').forEach(n => n.classList.remove('on'));
+      document.getElementById('pg-' + name).classList.add('on');
+      document.getElementById('n-' + name).classList.add('on');
+      if (name === 'results') renderResults();
+      if (name === 'analytics') renderAnalytics();
+      if (name === 'courses') renderCourses();
+      if (name === 'exams') renderExams('all');
+    }
+
+    // ═══════════════════════════════════
+    // LOAD ALL DATA ONCE
+    // ═══════════════════════════════════
+    async function loadAll() {
+      try {
+        const [ed, cd] = await Promise.all([
+          api('/student/exams'),
+          api('/student/courses')
+        ]);
+        EXAMS = ed.exams || [];
+        COURSES = cd.courses || [];
+
+        // sidebar meta
+        document.getElementById('sb-meta').textContent = `${cd.branch} · Section ${cd.section}`;
+        document.getElementById('d-meta').textContent = `${cd.branch} · Section ${cd.section}`;
+        document.getElementById('c-meta').textContent = `Branch: ${cd.branch}  |  Section: ${cd.section}`;
+
+        // stats
+        const live = EXAMS.filter(e => status(e) === 'live').length;
+        const done = EXAMS.filter(e => status(e) === 'done').length;
+        document.getElementById('s-courses').textContent = COURSES.length;
+        document.getElementById('s-total').textContent = EXAMS.length;
+        document.getElementById('s-live').textContent = live;
+        document.getElementById('s-done').textContent = done;
+
+        renderDash();
+
+        // load results quietly in background
+        api('/student/results').then(d => { RESULTS = d.results || []; }).catch(() => { });
+      } catch (e) {
+        toast(e.message, 'err');
+      }
+    }
+
+    // ═══════════════════════════════════
+    // STATUS HELPER
+    // ═══════════════════════════════════
+    function status(e) {
+      if (e.submission_status === 'submitted' || e.submission_status === 'evaluated') return 'done';
+      const now = new Date(), s = new Date(e.start_time), en = new Date(e.end_time);
+      if (now >= s && now <= en) return 'live';
+      if (now < s) return 'upcoming';
+      return 'done';
+    }
+
+    function fmt(iso) {
+      return new Date(iso).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function timeDiff(iso) {
+      const diff = new Date(iso) - new Date();
+      if (diff <= 0) return 'Started';
+      const h = Math.floor(diff / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+      return h > 0 ? `in ${h}h ${m}m` : `in ${m}m ${s}s`;
+    }
+
+    // ═══════════════════════════════════
+    // EXAM CARD HTML
+    // ═══════════════════════════════════
+    function card(e) {
+      const st = status(e);
+      const isLive = st === 'live';
+      const isDone = st === 'done';
+
+      // badge
+      const badgeMap = {
+        live: `<span class="badge b-live"><span class="dot"></span> Live</span>`,
+        upcoming: `<span class="badge b-upcoming">⏰ Upcoming</span>`,
+        done: `<span class="badge b-done">✓ Done</span>`,
+      };
+
+      // footer left
+      let footerLeft = '';
+      if (e.percentage != null) {
+        footerLeft = `<div class="pbar">
+      <div class="ptrack"><div class="pfill" style="width:${e.percentage}%"></div></div>
+      <span class="plabel">${e.percentage}%</span>
+    </div>`;
+      } else {
+        footerLeft = `<span class="badge ${e.exam_type === 'real' ? 'b-real' : 'b-practice'}">${e.exam_type === 'real' ? '🔴 Proctored' : '🟢 Practice'}</span>`;
+      }
+
+      // footer right button
+      let btn = '';
+      const canStart = isLive && !e.submission_status;
+      if (canStart) {
+        btn = `<button class="btn-start" onclick="startExam('${e.exam_id}','${e.exam_code}')">Start Exam →</button>`;
+      } else if (st === 'upcoming') {
+        btn = `<span class="btn-off" data-countdown="${e.start_time}" data-status="upcoming">⏳ ${timeDiff(e.start_time)}</span>`;
+      } else if (isDone) {
+        btn = `<span class="btn-off">✓ Submitted</span>`;
+      } else {
+        btn = `<span class="btn-off">—</span>`;
+      }
+
+      return `<div class="ec ${isLive ? 'live' : ''} ${isDone ? 'done' : ''}">
+    <div class="ec-top">
+      <div>
+        <div class="ec-course">${e.course_code} · ${e.course_name}</div>
+        <div class="ec-title">${e.title}</div>
+        <div class="ec-teacher">by ${e.teacher_name}</div>
+      </div>
+      ${badgeMap[st]}
+    </div>
+    <div class="ec-meta">
+      <div class="em"><span class="i">🕐</span><span><strong>${fmt(e.start_time)}</strong> → ${fmt(e.end_time)}</span></div>
+      <div class="em"><span class="i">⏱</span><span><strong>${e.duration_mins} mins</strong> · ${e.total_marks} marks</span></div>
+      <div class="em"><span class="i">🏷</span><span>${e.exam_type === 'real' ? 'Real Exam' : 'Practice Exam'}</span></div>
+      ${e.session_state ? `<div class="em"><span class="i">📡</span><span>Proctor state: <strong>${e.session_state}</strong></span></div>` : ''}
+    </div>
+    <div class="ec-footer">
+      ${footerLeft}
+      ${btn}
+    </div>
+  </div>`;
+    }
+
+    function empty(msg) {
+      return `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📭</div><p>${msg}</p></div>`;
+    }
+
+    // ═══════════════════════════════════
+    // DASHBOARD RENDER
+    // ═══════════════════════════════════
+    function renderDash() {
+      const live = EXAMS.filter(e => status(e) === 'live');
+      const upcoming = EXAMS.filter(e => status(e) === 'upcoming');
+
+      document.getElementById('g-live').innerHTML = live.length ? live.map(card).join('') : empty('No live exams right now.');
+      document.getElementById('g-upcoming').innerHTML = upcoming.length ? upcoming.map(card).join('') : empty('No upcoming exams.');
+    }
+
+    // ═══════════════════════════════════
+    // EXAM PAGE FILTER
+    // ═══════════════════════════════════
+    function filterExams(f, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      renderExams(f);
+    }
+
+    function renderExams(f) {
+      const list = f === 'all' ? EXAMS : EXAMS.filter(e => status(e) === f);
+      document.getElementById('g-exams').innerHTML =
+        list.length ? list.map(card).join('') : empty('No exams in this category.');
+    }
+
+    // ═══════════════════════════════════
+    // COURSES RENDER
+    // ═══════════════════════════════════
+    function renderCourses() {
+      const g = document.getElementById('g-courses');
+      if (!COURSES.length) { g.innerHTML = empty('No courses found.'); return; }
+      g.innerHTML = COURSES.map(c => `
+    <div class="cc">
+      <div class="cc-code">${c.course_code}</div>
+      <div class="cc-name">${c.course_name}</div>
+      <div class="cc-teacher">👤 ${c.teacher_name}</div>
+      ${c.credits ? `<span class="cc-credits">${c.credits} Credits</span>` : ''}
+    </div>`).join('');
+    }
+
+    // ═══════════════════════════════════
+    // RESULTS RENDER
+    // ═══════════════════════════════════
+    function renderResults() {
+      const tb = document.getElementById('t-results');
+      if (!RESULTS.length) {
+        // try fetching if not loaded yet
+        api('/student/results').then(d => {
+          RESULTS = d.results || [];
+          if (!RESULTS.length) { tb.innerHTML = `<tr><td colspan="7">${empty('No results yet.')}</td></tr>`; return; }
+          buildResultsTable();
+        }).catch(e => { tb.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:16px">${e.message}</td></tr>`; });
+        return;
+      }
+      buildResultsTable();
+    }
+
+    function buildResultsTable() {
+      const tb = document.getElementById('t-results');
+      tb.innerHTML = RESULTS.map(r => {
+        const pct = r.percentage || 0;
+        const smap = { submitted: `<span class="badge b-pending">Pending</span>`, evaluated: `<span class="badge b-done">Evaluated</span>` };
+        return `<tr>
+      <td><strong>${r.exam_title}</strong></td>
+      <td>${r.course_name}</td>
+      <td><span class="badge ${r.exam_type === 'real' ? 'b-real' : 'b-practice'}">${r.exam_type}</span></td>
+      <td>${r.obtained_marks != null ? `<strong>${r.obtained_marks}</strong>/${r.total_marks}` : '—'}</td>
+      <td>
+        <div class="pbar">
+          <div class="ptrack"><div class="pfill" style="width:${pct}%"></div></div>
+          <span class="plabel">${pct ? pct + '%' : '—'}</span>
+        </div>
+      </td>
+      <td>${smap[r.status] || r.status}</td>
+      <td style="color:var(--muted)">${r.submitted_at ? fmt(r.submitted_at) : '—'}</td>
+    </tr>`;
+      }).join('');
+    }
+
+    // ═══════════════════════════════════
+    // ANALYTICS RENDER
+    // ═══════════════════════════════════
+    function renderAnalytics() {
+      const evaluated = RESULTS.filter(r => r.percentage != null);
+      const avg = evaluated.length
+        ? Math.round(evaluated.reduce((s, r) => s + r.percentage, 0) / evaluated.length)
+        : null;
+
+      // Score circle
+      const deg = avg != null ? Math.round(avg * 3.6) : 0;
+      document.getElementById('avg-circle').style.setProperty('--pct', deg + 'deg');
+      document.getElementById('avg-val').textContent = avg != null ? avg + '%' : '—';
+      document.getElementById('avg-sub').textContent =
+        evaluated.length ? `Based on ${evaluated.length} evaluated exam${evaluated.length > 1 ? 's' : ''}` : 'No evaluated exams yet';
+
+      // Summary bars
+      const total = EXAMS.length;
+      const live = EXAMS.filter(e => status(e) === 'live').length;
+      const upcoming = EXAMS.filter(e => status(e) === 'upcoming').length;
+      const done = EXAMS.filter(e => status(e) === 'done').length;
+      const evaled = evaluated.length;
+
+      document.getElementById('exam-summary-bars').innerHTML = [
+        { l: 'Total', v: total, pct: 100, c: 'var(--accent)' },
+        { l: 'Upcoming', v: upcoming, pct: total ? upcoming / total * 100 : 0, c: 'var(--accent)' },
+        { l: 'Live', v: live, pct: total ? live / total * 100 : 0, c: 'var(--green)' },
+        { l: 'Submitted', v: done, pct: total ? done / total * 100 : 0, c: 'var(--muted2)' },
+        { l: 'Evaluated', v: evaled, pct: total ? evaled / total * 100 : 0, c: 'var(--yellow)' },
+      ].map(b => `
+    <div class="bar-row">
+      <div class="bar-label">${b.l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${b.pct}%;background:${b.c}"></div></div>
+      <div class="bar-val">${b.v}</div>
+    </div>`).join('');
+
+      // Per-exam score bars
+      if (!evaluated.length) {
+        document.getElementById('score-bars').innerHTML = `<div class="empty"><div class="empty-icon">📊</div><p>No scores available yet.</p></div>`;
+        return;
+      }
+      document.getElementById('score-bars').innerHTML = evaluated.map(r => `
+    <div class="bar-row">
+      <div class="bar-label" style="width:140px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis" title="${r.exam_title}">${r.exam_title}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${r.percentage}%"></div></div>
+      <div class="bar-val">${r.percentage}%</div>
+    </div>`).join('');
+    }
+
+    // ═══════════════════════════════════
+    // START EXAM
+    // ═══════════════════════════════════
+    async function startExam(examId, examCode) {
+      try {
+        const d = await api('/student/start-exam', 'POST', { exam_id: examId });
+        toast('Exam started! Launching proctoring…', 'ok');
+        // Hand off to proctoring join-exam flow
+        // The existing /api/v1/join-exam endpoint handles LiveKit session creation
+        setTimeout(() => {
+          // CORRECT — opens Tauri deep link with the JWT token
+          // Tauri app reads this token and uses it to call /api/v1/join-exam
+          window.location.href = `proctorshield://join?exam_code=${examCode}&token=${TOKEN}`;
+        }, 900);
+      } catch (e) {
+        toast(e.message, 'err');
+      }
+    }
+  </script>
+</body>
+
+</html>

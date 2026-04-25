@@ -1,0 +1,2485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProctorShield — Teacher Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07090f;
+      --surface: #0f1117;
+      --surfacek: #474448;
+      --surface2: #2c3038;
+      --surface3: #1c2333;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.12);
+      --accent: #4f8eff;
+      --accent-dim: rgba(79, 142, 255, .12);
+      --green: #00e5a0;
+      --green-dim: rgba(0, 229, 160, .12);
+      --red: #ff4f6a;
+      --red-dim: rgba(255, 79, 106, .12);
+      --yellow: #ffb84f;
+      --yellow-dim: rgba(255, 184, 79, .12);
+      --purple: #a78bfa;
+      --purple-dim: rgba(167, 139, 250, .12);
+      --text: #e8eaf2;
+      --muted: #6b7280;
+      --muted2: #9ca3af;
+      --font-h: 'times new roman', sans-serif;
+      --font-b: 'DM Sans', sans-serif;
+      --r: 12px;
+      --r-sm: 8px;
+      --r-lg: 18px;
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surfacek: #f8fafc;
+      --surface2: #e8edf3;
+      --surface3: #dde3eb;
+      --border: rgba(0, 0, 0, 0.08);
+      --border2: rgba(0, 0, 0, 0.14);
+      --text: #1a202c;
+      --muted: #64748b;
+      --muted2: #475569;
+      --accent: #2563eb;
+      --accent-dim: rgba(37, 99, 235, 0.1);
+      --blue: #2563eb;
+      --blue-dim: rgba(37, 99, 235, 0.1);
+      --green: #059669;
+      --green-dim: rgba(5, 150, 105, 0.1);
+      --red: #dc2626;
+      --red-dim: rgba(220, 38, 38, 0.1);
+      --yellow: #d97706;
+      --yellow-dim: rgba(217, 119, 6, 0.1);
+      --purple: #7c3aed;
+      --purple-dim: rgba(124, 58, 237, 0.1);
+      --card-glow: rgba(37, 99, 235, 0.06);
+    }
+
+    body.light .sb {
+      background: #ffffff;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    body.light table thead th {
+      background: #e8edf3;
+    }
+
+    body.light .field input,
+    body.light .field select,
+    body.light .field textarea {
+      background: #f8fafc;
+      color: #1a202c;
+    }
+
+    body.light .tbl-wrap {
+      background: #ffffff;
+    }
+
+    body.light .modal {
+      background: #ffffff;
+    }
+
+    body.light .toast {
+      background: #ffffff;
+      color: #1a202c;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 4px
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    .b-live {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(0, 229, 160, .2)
+    }
+
+    .b-upcoming {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(79, 142, 255, .2)
+    }
+
+    .b-done {
+      background: rgba(107, 114, 128, .12);
+      color: var(--muted2);
+      border: 1px solid rgba(107, 114, 128, .2)
+    }
+
+    .b-draft {
+      background: var(--yellow-dim);
+      color: var(--yellow);
+      border: 1px solid rgba(255, 184, 79, .2)
+    }
+
+    .b-real {
+      background: var(--red-dim);
+      color: var(--red)
+    }
+
+    .b-practice {
+      background: var(--green-dim);
+      color: var(--green)
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: blink 1.4s ease-in-out infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    /* LOGIN */
+    #pg-login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    #pg-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(167, 139, 250, .08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 80%, rgba(79, 142, 255, .06) 0%, transparent 55%)
+    }
+
+    #pg-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(167, 139, 250, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(167, 139, 250, .04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridDrift 25s linear infinite
+    }
+
+    @keyframes gridDrift {
+      to {
+        background-position: 40px 40px
+      }
+    }
+
+    .lc {
+      position: relative;
+      z-index: 2;
+      width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 48px 40px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .6);
+      animation: rise .55s cubic-bezier(.16, 1, .3, 1) both
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(28px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .lc-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 32px
+    }
+
+    .lc-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--purple), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px
+    }
+
+    .lc-brand {
+      font-family: var(--font-h);
+      font-size: 19px;
+      font-weight: 800
+    }
+
+    .lc-brand span {
+      color: var(--purple)
+    }
+
+    .lc-title {
+      font-family: var(--font-h);
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .lc-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 30px
+    }
+
+    .field {
+      margin-bottom: 16px
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      margin-bottom: 7px
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79, 142, 255, .13)
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--muted)
+    }
+
+    .field select option {
+      background: var(--surface2)
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 80px
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--accent) 100%);
+      border: none;
+      border-radius: var(--r-sm);
+      color: #fff;
+      font-family: var(--font-h);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s
+    }
+
+    .btn-primary:hover {
+      opacity: .88
+    }
+
+    .btn-primary:active {
+      transform: scale(.98)
+    }
+
+    .btn-primary:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .lc-err {
+      margin-top: 12px;
+      padding: 11px 14px;
+      background: var(--red-dim);
+      border: 1px solid rgba(255, 79, 106, .25);
+      border-radius: var(--r-sm);
+      color: var(--red);
+      font-size: 13px;
+      display: none
+    }
+
+    /* APP SHELL */
+    #pg-app {
+      display: none;
+      min-height: 100vh
+    }
+
+    .sb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 232px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 14px;
+      z-index: 100
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 8px;
+      margin-bottom: 30px;
+      font-family: var(--font-h);
+      font-size: 16px;
+      font-weight: 800
+    }
+
+    .sb-brand span {
+      color: var(--purple)
+    }
+
+    .sb-brand .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--purple), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px
+    }
+
+    .sb-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      padding: 0 10px;
+      margin: 18px 0 5px
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 10px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all .15s;
+      user-select: none
+    }
+
+    .nav:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
+
+    .nav.on {
+      background: var(--purple-dim);
+      color: var(--purple)
+    }
+
+    .nav .ni {
+      font-size: 16px;
+      width: 20px;
+      text-align: center
+    }
+
+    .sb-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border)
+    }
+
+    .u-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px
+    }
+
+    .u-av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .u-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2
+    }
+
+    .u-role {
+      font-size: 11px;
+      color: var(--muted)
+    }
+
+    .main {
+      margin-left: 232px;
+      padding: 32px 36px;
+      min-height: 100vh
+    }
+
+    .pg {
+      display: none
+    }
+
+    .pg.on {
+      display: block
+    }
+
+    .ph {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px
+    }
+
+    .ph-title {
+      font-family: var(--font-h);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.4px
+    }
+
+    .ph-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px
+    }
+
+    /* STAT CARDS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px
+    }
+
+    .sc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 22px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden
+    }
+
+    .sc:hover {
+      border-color: rgba(167, 139, 250, .25);
+      transform: translateY(-2px)
+    }
+
+    .sc::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--purple-dim)
+    }
+
+    .sc-icon {
+      font-size: 20px;
+      margin-bottom: 10px
+    }
+
+    .sc-val {
+      font-family: var(--font-h);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 3px
+    }
+
+    .sc-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    /* SECTION HEADING */
+    .sh {
+      font-family: var(--font-h);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted2)
+    }
+
+    .sh::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    /* CARDS GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color .2s, transform .2s
+    }
+
+    .card:hover {
+      border-color: rgba(167, 139, 250, .2);
+      transform: translateY(-2px)
+    }
+
+    /* TABLE */
+    .tbl-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 20px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    th {
+      background: var(--surface2);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap
+    }
+
+    td {
+      padding: 12px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, .015)
+    }
+
+    /* ACTION BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-h);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      border: none;
+      white-space: nowrap
+    }
+
+    .btn:hover {
+      opacity: .85
+    }
+
+    .btn:active {
+      transform: scale(.97)
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, var(--purple), var(--accent));
+      color: #fff
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), #00b377);
+      color: #07090f
+    }
+
+    .btn-red {
+      background: var(--red-dim);
+      color: var(--red);
+      border: 1px solid rgba(255, 79, 106, .25)
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--muted2);
+      border: 1px solid var(--border)
+    }
+
+    .btn-blue {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(79, 142, 255, .3)
+    }
+
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 11px
+    }
+
+    /* MODAL OVERLAY */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px)
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-lg);
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      animation: rise .3s ease both;
+      position: relative
+    }
+
+    .modal-wide {
+      max-width: 860px
+    }
+
+    .modal-title {
+      font-family: var(--font-h);
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px
+    }
+
+    .modal-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 24px
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 16px
+    }
+
+    .modal-close:hover {
+      color: var(--text)
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border)
+    }
+
+    /* FORM GRID */
+    .fg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .fg.fg-3 {
+      grid-template-columns: 1fr 1fr 1fr
+    }
+
+    .fg.fg-1 {
+      grid-template-columns: 1fr
+    }
+
+    .field-full {
+      grid-column: 1/-1
+    }
+
+    /* QUESTION TYPE TABS */
+    .qtabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px
+    }
+
+    .qtab {
+      padding: 7px 14px;
+      border-radius: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s
+    }
+
+    .qtab:hover {
+      border-color: var(--purple);
+      color: var(--purple)
+    }
+
+    .qtab.on {
+      background: var(--purple-dim);
+      border-color: rgba(167, 139, 250, .3);
+      color: var(--purple)
+    }
+
+    /* TEST CASE ROW */
+    .tc-row {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 14px;
+      margin-bottom: 10px;
+      position: relative
+    }
+
+    .tc-del {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--red-dim);
+      border: none;
+      border-radius: 6px;
+      color: var(--red);
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer
+    }
+
+    /* MCQ OPTION ROW */
+    .opt-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px
+    }
+
+    .opt-radio {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--purple);
+      cursor: pointer;
+      flex-shrink: 0
+    }
+
+    .opt-input {
+      flex: 1;
+      padding: 9px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s
+    }
+
+    .opt-input:focus {
+      border-color: var(--purple)
+    }
+
+    .opt-del {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px
+    }
+
+    .opt-del:hover {
+      color: var(--red)
+    }
+
+    /* MATCH ROWS */
+    .match-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px
+    }
+
+    /* QUESTION BANK ITEM */
+    .qb-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color .2s
+    }
+
+    .qb-item:hover {
+      border-color: rgba(167, 139, 250, .2)
+    }
+
+    .qb-type {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--purple);
+      margin-bottom: 4px
+    }
+
+    .qb-text {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4
+    }
+
+    .qb-marks {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px
+    }
+
+    /* EVAL PANEL */
+    .eval-answers {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0
+    }
+
+    .ans-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 16px
+    }
+
+    .ans-q {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .ans-text {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px
+    }
+
+    .ans-marks {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px
+    }
+
+    .marks-input {
+      width: 80px;
+      padding: 6px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-size: 13px;
+      outline: none
+    }
+
+    .marks-input:focus {
+      border-color: var(--green)
+    }
+
+    /* ANALYTICS BAR */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: var(--muted);
+      width: 120px;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--surface3);
+      border-radius: 4px;
+      overflow: hidden
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--purple), var(--accent))
+    }
+
+    .bar-val {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      width: 40px;
+      flex-shrink: 0;
+      text-align: right
+    }
+
+    /* EMPTY / SPINNER */
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--muted)
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: .4
+    }
+
+    .empty p {
+      font-size: 13px
+    }
+
+    .spin {
+      width: 32px;
+      height: 32px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      animation: sp .65s linear infinite;
+      margin: 40px auto
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* TOAST */
+    #toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 9999
+    }
+
+    .toast {
+      padding: 12px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .45);
+      animation: tin .3s ease both;
+      min-width: 240px
+    }
+
+    .toast.ok {
+      border-left: 3px solid var(--green)
+    }
+
+    .toast.err {
+      border-left: 3px solid var(--red)
+    }
+
+    .toast.info {
+      border-left: 3px solid var(--accent)
+    }
+
+    @keyframes tin {
+      from {
+        opacity: 0;
+        transform: translateX(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    /* STEP INDICATOR */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .step.on .step-num {
+      background: var(--purple-dim);
+      border-color: var(--purple);
+      color: var(--purple)
+    }
+
+    .step.on {
+      color: var(--purple)
+    }
+
+    .step.done .step-num {
+      background: var(--green-dim);
+      border-color: var(--green);
+      color: var(--green)
+    }
+
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 8px
+    }
+
+    /* PBAR */
+    .pbar {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .ptrack {
+      flex: 1;
+      height: 5px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden
+    }
+
+    .pfill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--accent))
+    }
+
+    .plabel {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 32px
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- ══════════ APP SHELL ══════════ -->
+  <div id="pg-app">
+    <aside class="sb">
+      <div class="sb-brand">
+        <div class="icon">🎓</div>Proctor<span>Shield</span>
+      </div>
+      <div class="sb-label">Manage</div>
+      <div class="nav on" id="n-dash" onclick="go('dash')"> <span class="ni">⊞</span> Dashboard</div>
+      <div class="nav" id="n-exams" onclick="go('exams')"> <span class="ni">📝</span> My Exams</div>
+      <div class="nav" id="n-create" onclick="go('create')"> <span class="ni">➕</span> Create Exam</div>
+      <div class="nav" id="n-qbank" onclick="go('qbank')"> <span class="ni">🗂</span> Question Bank</div>
+      <div class="sb-label">Evaluation</div>
+      <div class="nav" id="n-evaluate" onclick="go('evaluate')"> <span class="ni">✏️</span> Evaluate</div>
+      <div class="nav" id="n-analytics" onclick="go('analytics')"> <span class="ni">📊</span> Analytics</div>
+      <div class="sb-footer">
+        <div class="u-pill">
+          <div class="u-av" id="sb-av">T</div>
+          <div>
+            <div class="u-name" id="sb-name">—</div>
+            <div class="u-role">Teacher</div>
+          </div>
+        </div>
+        <div class="nav" onclick="toggleTheme()" id="theme-btn" style="margin-bottom:4px">
+          <span class="ni" id="theme-icon">🌙</span> <span id="theme-label">Dark Mode</span>
+        </div>
+        <div class="nav" onclick="doLogout()" style="color:var(--red);margin-top:4px"><span class="ni">↩</span> Logout
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="pg on" id="pg-dash">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Welcome, <span id="d-name">Teacher</span> 👋</div>
+            <div class="ph-sub">Your teaching overview</div>
+          </div>
+          <button class="btn btn-purple" onclick="go('create')">➕ New Exam</button>
+        </div>
+        <div class="stats">
+          <div class="sc">
+            <div class="sc-icon">📚</div>
+            <div class="sc-val" id="s-courses">—</div>
+            <div class="sc-lbl">Courses</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon">📝</div>
+            <div class="sc-val" id="s-exams">—</div>
+            <div class="sc-lbl">Exams</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon"><span class="dot"></span></div>
+            <div class="sc-val" id="s-live">—</div>
+            <div class="sc-lbl">Live Now</div>
+          </div>
+          <div class="sc">
+            <div class="sc-icon">⏳</div>
+            <div class="sc-val" id="s-pending">—</div>
+            <div class="sc-lbl">Pending Eval</div>
+          </div>
+        </div>
+        <div class="sh">Recent Exams</div>
+        <div id="dash-exams">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── MY EXAMS ── -->
+      <div class="pg" id="pg-exams">
+        <div class="ph">
+          <div>
+            <div class="ph-title">My Exams</div>
+            <div class="ph-sub">All exams you have created</div>
+          </div>
+          <button class="btn btn-purple" onclick="go('create')">➕ New Exam</button>
+        </div>
+        <div id="exams-list">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── CREATE EXAM (3-step wizard) ── -->
+      <div class="pg" id="pg-create">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Create Exam</div>
+            <div class="ph-sub">Set up exam details, then add questions</div>
+          </div>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="steps">
+          <div class="step on" id="step1-ind">
+            <div class="step-num">1</div> Exam Details
+          </div>
+          <div class="step-line"></div>
+          <div class="step" id="step2-ind">
+            <div class="step-num">2</div> Add Questions
+          </div>
+          <div class="step-line"></div>
+          <div class="step" id="step3-ind">
+            <div class="step-num">3</div> Review & Publish
+          </div>
+        </div>
+
+        <!-- Step 1: Exam Details -->
+        <div id="step1">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px">
+            <div class="fg">
+              <div class="field field-full"><label>Exam Title *</label><input id="ex-title"
+                  placeholder="e.g. Mid Semester Exam — Data Structures" /></div>
+              <div class="field"><label>Course *</label>
+                <select id="ex-course">
+                  <option value="">— select course —</option>
+                </select>
+              </div>
+              <div class="field"><label>Exam Type *</label>
+                <select id="ex-type">
+                  <option value="real">Real (Proctored)</option>
+                  <option value="practice">Practice</option>
+                </select>
+              </div>
+              <div class="field"><label>Target Branch *</label>
+                <select id="ex-branch">
+                  <option value="">— Select —</option>
+                  <option>CSE</option>
+                  <option>ECE</option>
+                  <option>ME</option>
+                  <option>CE</option>
+                  <option>EEE</option>
+                  <option>IT</option>
+                  <option>AIML</option>
+                </select>
+              </div>
+              <div class="field"><label>Target Section *</label>
+                <select id="ex-section">
+                  <option value="">— Select —</option>
+                  <option>A</option>
+                  <option>B</option>
+                  <option>C</option>
+                  <option>D</option>
+                </select>
+              </div>
+              <div class="field"><label>Duration (minutes) *</label><input id="ex-duration" type="number" value="60"
+                  min="5" /></div>
+              <div class="field"><label>Total Marks *</label><input id="ex-marks" type="number" value="100" min="1" />
+              </div>
+              <div class="field"><label>Start Time *</label><input id="ex-start" type="datetime-local" /></div>
+              <div class="field"><label>End Time *</label><input id="ex-end" type="datetime-local" /></div>
+              <div class="field field-full"><label>Description</label><textarea id="ex-desc"
+                  placeholder="Optional exam instructions…"></textarea></div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:8px">
+              <button class="btn btn-purple" onclick="submitExamDetails()">Next: Add Questions →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Question Builder -->
+        <div id="step2" class="hidden">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+
+            <!-- Left: question form -->
+            <div
+              style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <div style="font-family:var(--font-h);font-size:15px;font-weight:700">Question Builder</div>
+                <div style="font-size:12px;color:var(--muted)" id="q-count-label">0 questions added</div>
+              </div>
+
+              <div class="qtabs" id="qtabs">
+                <div class="qtab on" onclick="setQType('mcq',this)">MCQ</div>
+                <div class="qtab" onclick="setQType('coding',this)">Coding</div>
+                <div class="qtab" onclick="setQType('one_word',this)">One Word</div>
+                <div class="qtab" onclick="setQType('short_answer',this)">Short Answer</div>
+                <div class="qtab" onclick="setQType('true_false',this)">True/False</div>
+                <div class="qtab" onclick="setQType('match_following',this)">Match</div>
+              </div>
+
+              <!-- Common fields -->
+              <div class="fg">
+                <div class="field field-full"><label>Question Text *</label><textarea id="q-title"
+                    placeholder="Enter the question…" style="min-height:70px"></textarea></div>
+                <div class="field"><label>Marks *</label><input id="q-marks" type="number" value="1" min="0.5"
+                    step="0.5" /></div>
+                <div class="field"><label>Order Index</label><input id="q-order" type="number" value="0" min="0" />
+                </div>
+              </div>
+
+              <!-- MCQ fields -->
+              <div id="qf-mcq">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                  <div
+                    style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)">
+                    Options</div>
+                  <label
+                    style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer">
+                    <input type="checkbox" id="mcq-multi" onchange="toggleMCQMode()" /> Allow multiple correct answers
+                  </label>
+                </div>
+                <div id="mcq-options">
+                  <div class="opt-row"><input type="radio" name="mcq-correct" class="opt-radio" value="0" /><input
+                      class="opt-input" placeholder="Option A" /><button class="opt-del"
+                      onclick="delOpt(this)">×</button></div>
+                  <div class="opt-row"><input type="radio" name="mcq-correct" class="opt-radio" value="1" /><input
+                      class="opt-input" placeholder="Option B" /><button class="opt-del"
+                      onclick="delOpt(this)">×</button></div>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="addOpt()" style="margin-top:6px">+ Add Option</button>
+              </div>
+
+              <!-- Coding fields -->
+              <div id="qf-coding" class="hidden">
+                <div class="fg fg-1">
+                  <div class="field"><label>Problem Description *</label><textarea id="q-desc"
+                      placeholder="Full problem description…" style="min-height:100px"></textarea></div>
+                  <div class="field"><label>Input Format</label><textarea id="q-input-fmt"
+                      placeholder="Describe input format…"></textarea></div>
+                  <div class="field"><label>Output Format</label><textarea id="q-output-fmt"
+                      placeholder="Describe output format…"></textarea></div>
+                  <div class="field"><label>Constraints</label><textarea id="q-constraints"
+                      placeholder="e.g. 1 ≤ N ≤ 10^5"></textarea></div>
+                </div>
+                <div class="fg">
+                  <div class="field"><label>Time Limit (ms)</label><input id="q-time" type="number" value="2000" />
+                  </div>
+                  <div class="field"><label>Memory Limit (MB)</label><input id="q-mem" type="number" value="256" />
+                  </div>
+                </div>
+                <div
+                  style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:14px 0 10px;display:flex;justify-content:space-between;align-items:center">
+                  Test Cases
+                  <button class="btn btn-ghost btn-sm" onclick="addTC()">+ Add Test Case</button>
+                </div>
+                <div id="tc-list">
+                  <div class="tc-row">
+                    <button class="tc-del" onclick="this.parentElement.remove()">✕</button>
+                    <div class="fg">
+                      <div class="field"><label>Input</label><textarea placeholder="Sample input…" class="tc-in"
+                          style="min-height:55px"></textarea></div>
+                      <div class="field"><label>Expected Output</label><textarea placeholder="Expected output…"
+                          class="tc-out" style="min-height:55px"></textarea></div>
+                    </div>
+                    <label
+                      style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:8px"><input
+                        type="checkbox" class="tc-hidden" /> Hidden test case</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- One Word / Short Answer -->
+              <div id="qf-text" class="hidden">
+                <div class="field"><label>Expected Answer *</label><input id="q-expected"
+                    placeholder="Correct answer…" /></div>
+              </div>
+
+              <!-- True / False -->
+              <div id="qf-tf" class="hidden">
+                <div class="field"><label>Correct Answer *</label>
+                  <select id="q-tf">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Match the Following -->
+              <div id="qf-match" class="hidden">
+                <div
+                  style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between">
+                  Match Pairs
+                  <button class="btn btn-ghost btn-sm" onclick="addMatch()">+ Add Pair</button>
+                </div>
+                <div id="match-pairs">
+                  <div class="match-row">
+                    <input class="opt-input match-l" placeholder="Left item…" />
+                    <span style="color:var(--muted)">↔</span>
+                    <input class="opt-input match-r" placeholder="Right item…" />
+                    <button class="opt-del" onclick="this.parentElement.remove()">×</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Question Bank reuse option -->
+              <div
+                style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                <button class="btn btn-ghost btn-sm" onclick="openQBank()">🗂 Reuse from Question Bank</button>
+                <button class="btn btn-purple" onclick="addQuestion()">Add Question ➕</button>
+              </div>
+            </div>
+
+            <!-- Right: questions added -->
+            <div
+              style="width:300px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;flex-shrink:0">
+              <div style="font-family:var(--font-h);font-size:14px;font-weight:700;margin-bottom:14px">Added Questions
+              </div>
+              <div id="q-added-list" style="display:flex;flex-direction:column;gap:8px">
+                <div class="empty" style="padding:30px 10px">
+                  <div class="empty-icon">📋</div>
+                  <p>No questions yet</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;margin-top:20px">
+            <button class="btn btn-ghost" onclick="showStep(1)">← Back</button>
+            <button class="btn btn-purple" onclick="showStep(3)">Review & Publish →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Review & Publish -->
+        <div id="step3" class="hidden">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px">
+            <div style="font-family:var(--font-h);font-size:16px;font-weight:700;margin-bottom:20px">Exam Summary</div>
+            <div id="review-content"></div>
+            <div
+              style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+              <button class="btn btn-ghost" onclick="showStep(2)">← Back</button>
+              <button class="btn btn-ghost" onclick="saveExamDraft()">💾 Save as Draft</button>
+              <button class="btn btn-green" onclick="publishExam()">🚀 Publish Exam</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── QUESTION BANK ── -->
+      <div class="pg" id="pg-qbank">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Question Bank</div>
+            <div class="ph-sub">All questions you have created — reuse in any exam</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px" id="qb-filters">
+          <button class="qtab on" onclick="filterQBank('all',this)">All</button>
+          <button class="qtab" onclick="filterQBank('mcq',this)">MCQ</button>
+          <button class="qtab" onclick="filterQBank('coding',this)">Coding</button>
+          <button class="qtab" onclick="filterQBank('one_word',this)">One Word</button>
+          <button class="qtab" onclick="filterQBank('short_answer',this)">Short Answer</button>
+          <button class="qtab" onclick="filterQBank('true_false',this)">True/False</button>
+          <button class="qtab" onclick="filterQBank('match_following',this)">Match</button>
+        </div>
+        <div id="qbank-list" style="display:flex;flex-direction:column;gap:10px">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── EVALUATE ── -->
+      <div class="pg" id="pg-evaluate">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Evaluate Submissions</div>
+            <div class="ph-sub">Review and assign marks to student answers</div>
+          </div>
+        </div>
+        <div class="sh">Select Exam to Evaluate</div>
+        <div id="eval-exam-list">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+      <!-- ── ANALYTICS ── -->
+      <div class="pg" id="pg-analytics">
+        <div class="ph">
+          <div>
+            <div class="ph-title">Exam Analytics</div>
+            <div class="ph-sub">Student performance insights</div>
+          </div>
+        </div>
+        <div id="analytics-content">
+          <div class="spin"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══════════ MODALS ══════════ -->
+
+  <!-- Submission Detail Modal -->
+  <div class="overlay hidden" id="m-submission">
+    <div class="modal modal-wide">
+      <div class="modal-close" onclick="closeModal('m-submission')">×</div>
+      <div class="modal-title" id="m-sub-title">Evaluate Submission</div>
+      <div class="modal-sub" id="m-sub-name"></div>
+      <div id="m-sub-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-submission')">Cancel</button>
+        <button class="btn btn-green" onclick="saveEval()">💾 Save Evaluation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Bank Reuse Modal -->
+  <div class="overlay hidden" id="m-qbank">
+    <div class="modal">
+      <div class="modal-close" onclick="closeModal('m-qbank')">×</div>
+      <div class="modal-title">Reuse from Question Bank</div>
+      <div class="modal-sub">Select questions to add to current exam</div>
+      <div id="m-qbank-body" style="display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('m-qbank')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    // ═══════════════════════════════════
+    // CONFIG
+    // ═══════════════════════════════════
+    const BASE = 'http://localhost:8000';
+
+    // ═══════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════
+    let TOKEN = localStorage.getItem('ps_t_tok') || null;
+    let USER = JSON.parse(localStorage.getItem('ps_t_usr') || 'null');
+    let COURSES = [];
+    let MY_EXAMS = [];
+    let ALL_QUESTIONS = []; // question bank
+    let CUR_EXAM_ID = null;  // exam being created
+    let CUR_EXAM_CODE = null;
+    let ADDED_QS = [];    // questions added in current session
+    let CUR_QTYPE = 'mcq';
+    let EVAL_SUB_ID = null;
+    let EVAL_ANSWERS = {};    // { question_id: marks }
+    let CUR_EXAM_DETAILS = null;  // stores exam details for review page
+
+    // ── THEME ──────────────────────────────────────────────
+    const THEME_KEY = 'ps_theme';
+
+    function applyTheme(theme) {
+      document.body.classList.toggle('light', theme === 'light');
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (icon) icon.textContent = theme === 'light' ? '🌙' : '☀️';
+      if (label) label.textContent = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem(THEME_KEY) || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    }
+
+    // Apply saved theme on load
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    // ═══════════════════════════════════
+    // BOOT
+    // ═══════════════════════════════════
+    (function () {
+      if (!TOKEN || !USER) {
+        window.location.href = 'login.html'; return;
+      }
+      if (USER.role !== 'teacher') {
+        window.location.href = 'login.html'; return;
+      }
+      showApp();
+    })();
+
+    // ═══════════════════════════════════
+    // API
+    // ═══════════════════════════════════
+    async function api(path, method = 'GET', body = null) {
+      const r = await fetch(BASE + path, {
+        method,
+        headers: { 'Content-Type': 'application/json', ...(TOKEN ? { 'Authorization': 'Bearer ' + TOKEN } : {}) },
+        ...(body ? { body: JSON.stringify(body) } : {})
+      });
+      if (!r.ok) { const e = await r.json().catch(() => ({ detail: 'Error' })); throw new Error(e.detail || r.statusText); }
+      return r.json();
+    }
+
+    function toast(msg, type = 'ok') {
+      const el = document.createElement('div');
+      el.className = `toast ${type}`; el.textContent = msg;
+      document.getElementById('toast-box').appendChild(el);
+      setTimeout(() => el.remove(), 3200);
+    }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+
+    // ═══════════════════════════════════
+    // LOGIN / LOGOUT
+    // ═══════════════════════════════════
+    async function doLogin() {
+      const email = document.getElementById('i-email').value.trim();
+      const pass = document.getElementById('i-pass').value;
+      const err = document.getElementById('lc-err');
+      const btn = document.getElementById('btn-login');
+      err.style.display = 'none';
+      if (!email || !pass) { err.textContent = 'Enter email and password.'; err.style.display = 'block'; return; }
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        const d = await api('/erp/login', 'POST', { email, password: pass });
+        if (d.user.role !== 'teacher') {
+          err.textContent = 'This portal is for teachers only.';
+          err.style.display = 'block'; btn.disabled = false; btn.textContent = 'Sign In →'; return;
+        }
+        TOKEN = d.access_token; USER = d.user;
+        localStorage.setItem('ps_t_tok', TOKEN);
+        localStorage.setItem('ps_t_usr', JSON.stringify(USER));
+        showApp();
+      } catch (e) { err.textContent = e.message; err.style.display = 'block'; btn.disabled = false; btn.textContent = 'Sign In →'; }
+    }
+
+    function doLogout() {
+      TOKEN = null; USER = null;
+      localStorage.removeItem('ps_t_tok');
+      localStorage.removeItem('ps_t_usr');
+      window.location.href = 'login.html';
+    }
+
+    // ═══════════════════════════════════
+    // SHOW APP
+    // ═══════════════════════════════════
+    function showApp() {
+
+      document.getElementById('pg-app').style.display = 'block';
+      const initials = USER.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('sb-av').textContent = initials;
+      document.getElementById('sb-name').textContent = USER.name;
+      document.getElementById('d-name').textContent = USER.name.split(' ')[0];
+      loadAll();
+    }
+
+    // ═══════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════
+    function go(name) {
+      document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.nav').forEach(n => n.classList.remove('on'));
+      document.getElementById('pg-' + name).classList.add('on');
+      document.getElementById('n-' + name).classList.add('on');
+      if (name === 'exams') renderExams();
+      if (name === 'evaluate') renderEvalPage();
+      if (name === 'qbank') renderQBank('all');
+      if (name === 'analytics') renderAnalytics();
+      if (name === 'create') initCreate();
+    }
+
+    // ═══════════════════════════════════
+    // LOAD ALL
+    // ═══════════════════════════════════
+    async function loadAll() {
+      try {
+        const [examsData, coursesData, branchesData] = await Promise.all([
+          api('/teacher/my-exams').catch(() => ({ exams: [] })),
+          api('/teacher/my-courses').catch(() => ({ courses: [] })),
+          api('/teacher/branches').catch(() => ({ branches: [] })),
+        ]);
+
+        MY_EXAMS = examsData.exams || [];
+        COURSES = coursesData.courses || [];
+        const BRANCHES = branchesData.branches || [];
+
+        // Populate branch dropdown dynamically
+        const branchSel = document.getElementById('ex-branch');
+        if (branchSel) {
+          branchSel.innerHTML = '<option value="">— Select —</option>';
+          BRANCHES.forEach(b => {
+            branchSel.innerHTML += `<option value="${b.code}">${b.name} (${b.code})</option>`;
+          });
+        }
+
+        const now = new Date();
+        const live = MY_EXAMS.filter(e => new Date(e.start_time) <= now && new Date(e.end_time) >= now && e.is_published).length;
+        const pending = MY_EXAMS.reduce((s, e) => s + (e.pending_eval || 0), 0);
+        document.getElementById('s-courses').textContent = COURSES.length;
+        document.getElementById('s-exams').textContent = MY_EXAMS.length;
+        document.getElementById('s-live').textContent = live;
+        document.getElementById('s-pending').textContent = pending;
+
+        renderDash();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    function fmt(iso) { return new Date(iso).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+    function examStatus(e) {
+      const now = new Date(), s = new Date(e.start_time), en = new Date(e.end_time);
+      if (!e.is_published) return 'draft';
+      if (now >= s && now <= en) return 'live';
+      if (now < s) return 'upcoming';
+      return 'done';
+    }
+    function statusBadge(st) {
+      return {
+        live: `<span class="badge b-live"><span class="dot"></span> Live</span>`,
+        upcoming: `<span class="badge b-upcoming">⏰ Upcoming</span>`,
+        done: `<span class="badge b-done">✓ Done</span>`,
+        draft: `<span class="badge b-draft">✏️ Draft</span>`,
+      }[st] || '';
+    }
+
+    // ═══════════════════════════════════
+    // DASHBOARD
+    // ═══════════════════════════════════
+    function renderDash() {
+      const el = document.getElementById('dash-exams');
+      if (!MY_EXAMS.length) { el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><p>No exams yet. <a href="#" onclick="go('create')" style="color:var(--purple)">Create your first exam →</a></p></div>`; return; }
+      el.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Exam</th><th>Course</th><th>Target</th><th>Status</th><th>Submissions</th><th>Actions</th></tr></thead>
+    <tbody>${MY_EXAMS.slice(0, 8).map(examRow).join('')}</tbody>
+  </table></div>`;
+    }
+
+    function examRow(e) {
+      const st = examStatus(e);
+      return `<tr>
+        <td><strong>${e.title}</strong><br><span style="font-size:11px;color:var(--muted)">${e.exam_code}</span></td>
+        <td>${e.course_name || '—'}</td>
+        <td><span style="font-size:12px">${e.target_branch} · ${e.target_section}</span></td>
+        <td>${statusBadge(st)}</td>
+        <td><span style="font-size:13px">${e.submission_count || 0}</span></td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="viewSubmissions('${e.exam_id}','${e.title}')">📋 Evaluate</button>
+          ${!e.is_published ? `<button class="btn btn-blue btn-sm" onclick="resumeDraft('${e.exam_id}','${e.exam_code}')">✏️ Resume</button>` : ''}
+          ${!e.is_published ? `<button class="btn btn-green btn-sm" onclick="publishExamById('${e.exam_id}')">🚀 Publish</button>` : ''}
+        </td>
+      </tr>`;
+    }
+
+    // ═══════════════════════════════════
+    // MY EXAMS
+    // ═══════════════════════════════════
+    function renderExams() {
+      const el = document.getElementById('exams-list');
+      if (!MY_EXAMS.length) { el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><p>No exams created yet.</p></div>`; return; }
+      el.innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Exam</th><th>Course</th><th>Branch/Section</th><th>Type</th><th>Timing</th><th>Status</th><th>Subs</th><th>Actions</th></tr></thead>
+    <tbody>${MY_EXAMS.map(e => {
+        const st = examStatus(e);
+        return `<tr>
+        <td><strong>${e.title}</strong><div style="font-size:11px;color:var(--muted)">${e.exam_code}</div></td>
+        <td>${e.course_name || '—'}</td>
+        <td>${e.target_branch} · ${e.target_section}</td>
+        <td><span class="badge ${e.exam_type === 'real' ? 'b-real' : 'b-practice'}">${e.exam_type}</span></td>
+        <td style="font-size:12px;color:var(--muted)">${fmt(e.start_time)}<br>→ ${fmt(e.end_time)}</td>
+        <td>${statusBadge(st)}</td>
+        <td>${e.submission_count || 0}</td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="viewSubmissions('${e.exam_id}','${e.title}')">📋</button>
+          ${!e.is_published ? `<button class="btn btn-green btn-sm" onclick="publishExamById('${e.exam_id}')">Publish</button>` : ''}
+        </td>
+      </tr>`;
+      }).join('')}</tbody>
+  </table></div>`;
+    }
+
+    // ═══════════════════════════════════
+    // CREATE EXAM — STEP CONTROL
+    // ═══════════════════════════════════
+    function initCreate() {
+      const sel = document.getElementById('ex-course');
+      sel.innerHTML = '<option value="">— Select Course —</option>';
+
+      // Group by branch
+      const byBranch = {};
+      COURSES.forEach(c => {
+        if (!byBranch[c.branch]) byBranch[c.branch] = [];
+        byBranch[c.branch].push(c);
+      });
+
+      Object.entries(byBranch).forEach(([branch, courses]) => {
+        const group = document.createElement('optgroup');
+        group.label = branch;
+        courses.forEach(c => {
+          group.innerHTML += `<option value="${c.course_id}">${c.course_code} — ${c.course_name} (Sem ${c.semester})</option>`;
+        });
+        sel.appendChild(group);
+      });
+
+      // When branch changes, filter courses
+      document.getElementById('ex-branch').onchange = function () {
+        const selected = this.value;
+        sel.innerHTML = '<option value="">— Select Course —</option>';
+        const filtered = selected ? COURSES.filter(c => c.branch === selected) : COURSES;
+        filtered.forEach(c => {
+          sel.innerHTML += `<option value="${c.course_id}">${c.course_code} — ${c.course_name} (Sem ${c.semester})</option>`;
+        });
+      };
+
+      showStep(1);
+      // Only reset if not resuming a draft
+      if (!CUR_EXAM_ID) {
+        ADDED_QS = [];
+        renderAddedQs();
+      }
+    }
+
+    function showStep(n) {
+      [1, 2, 3].forEach(i => {
+        document.getElementById('step' + i).classList.toggle('hidden', i !== n);
+        const ind = document.getElementById('step' + i + '-ind');
+        ind.classList.remove('on', 'done');
+        if (i === n) ind.classList.add('on');
+        else if (i < n) ind.classList.add('done');
+      });
+      if (n === 3) buildReview();
+    }
+
+    // ═══════════════════════════════════
+    // STEP 1 — SUBMIT EXAM DETAILS
+    // ═══════════════════════════════════
+    async function submitExamDetails() {
+      const title = document.getElementById('ex-title').value.trim();
+      const courseId = document.getElementById('ex-course').value;
+      const branch = document.getElementById('ex-branch').value;
+      const section = document.getElementById('ex-section').value;
+      const type = document.getElementById('ex-type').value;
+      const duration = document.getElementById('ex-duration').value;
+      const marks = document.getElementById('ex-marks').value;
+      const start = document.getElementById('ex-start').value;
+      const end = document.getElementById('ex-end').value;
+      const desc = document.getElementById('ex-desc').value;
+
+      if (!title || !courseId || !branch || !section || !start || !end) {
+        toast('Fill all required fields', 'err'); return;
+      }
+
+      try {
+        const d = await api('/teacher/create-exam', 'POST', {
+          course_id: courseId, title, description: desc,
+          target_branch: branch, target_section: section,
+          exam_type: type, duration_mins: parseInt(duration),
+          total_marks: parseFloat(marks),
+          start_time: new Date(start).toISOString(),
+          end_time: new Date(end).toISOString(),
+        });
+        CUR_EXAM_ID = d.exam_id;
+        CUR_EXAM_CODE = d.exam_code;
+        // Save form details for review page
+        CUR_EXAM_DETAILS = {
+          title: document.getElementById('ex-title').value,
+          branch: document.getElementById('ex-branch').value,
+          section: document.getElementById('ex-section').value,
+          start: document.getElementById('ex-start').value,
+          end: document.getElementById('ex-end').value,
+          marks: document.getElementById('ex-marks').value,
+          type: document.getElementById('ex-type').value,
+        };
+        toast('Exam created! Now add questions.', 'ok');
+        showStep(2);
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ═══════════════════════════════════
+    // STEP 2 — QUESTION BUILDER
+    // ═══════════════════════════════════
+    function setQType(type, btn) {
+      CUR_QTYPE = type;
+      document.querySelectorAll('.qtab').forEach(t => t.classList.remove('on'));
+      btn.classList.add('on');
+      ['mcq', 'coding', 'text', 'tf', 'match'].forEach(f =>
+        document.getElementById('qf-' + f).classList.add('hidden'));
+      const map = { mcq: 'mcq', coding: 'coding', one_word: 'text', short_answer: 'text', true_false: 'tf', match_following: 'match' };
+      document.getElementById('qf-' + (map[type] || 'mcq')).classList.remove('hidden');
+    }
+
+    function addOpt() {
+      const count = document.getElementById('mcq-options').children.length;
+      const isMulti = document.getElementById('mcq-multi').checked;
+      const row = document.createElement('div'); row.className = 'opt-row';
+      const inputType = isMulti ? 'checkbox' : 'radio';
+      const inputName = isMulti ? `mcq-correct-multi-${count}` : 'mcq-correct';
+      const cls = isMulti ? 'opt-radio opt-multi' : 'opt-radio opt-single';
+      row.innerHTML = `<input type="${inputType}" name="${inputName}" class="${cls}" value="${count}"/><input class="opt-input" placeholder="Option ${String.fromCharCode(65 + count)}"/><button class="opt-del" onclick="delOpt(this)">×</button>`;
+      document.getElementById('mcq-options').appendChild(row);
+    }
+    function delOpt(btn) { if (document.getElementById('mcq-options').children.length > 2) btn.parentElement.remove(); }
+
+    function addTC() {
+      const div = document.createElement('div'); div.className = 'tc-row';
+      div.innerHTML = `<button class="tc-del" onclick="this.parentElement.remove()">✕</button>
+    <div class="fg">
+      <div class="field"><label>Input</label><textarea class="tc-in" placeholder="Input…" style="min-height:55px"></textarea></div>
+      <div class="field"><label>Expected Output</label><textarea class="tc-out" placeholder="Output…" style="min-height:55px"></textarea></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:8px"><input type="checkbox" class="tc-hidden"/> Hidden</label>`;
+      document.getElementById('tc-list').appendChild(div);
+    }
+
+    function addMatch() {
+      const row = document.createElement('div'); row.className = 'match-row';
+      row.innerHTML = `<input class="opt-input match-l" placeholder="Left…"/><span style="color:var(--muted)">↔</span><input class="opt-input match-r" placeholder="Right…"/><button class="opt-del" onclick="this.parentElement.remove()">×</button>`;
+      document.getElementById('match-pairs').appendChild(row);
+    }
+
+    async function addQuestion() {
+      if (!CUR_EXAM_ID) { toast('Create exam details first', 'err'); return; }
+      const title = document.getElementById('q-title').value.trim();
+      const marks = parseFloat(document.getElementById('q-marks').value) || 1;
+      const order = parseInt(document.getElementById('q-order').value) || 0;
+      if (!title) { toast('Enter question text', 'err'); return; }
+
+      const payload = {
+        exam_id: CUR_EXAM_ID,
+        question_type: CUR_QTYPE,
+        title, marks, order_index: order,
+      };
+
+      // Type-specific data
+      if (CUR_QTYPE === 'mcq') {
+        const opts = [...document.querySelectorAll('#mcq-options .opt-input')].map(i => i.value.trim());
+        const isMulti = document.getElementById('mcq-multi').checked;
+
+        let correctIds = [];
+        if (isMulti) {
+          // Select all checked inputs inside mcq-options regardless of type
+          const checked = [...document.querySelectorAll('#mcq-options .opt-radio:checked')];
+          console.log('Multi mode checked count:', checked.length, checked.map(c => c.value));
+          if (!checked.length) { toast('Select at least one correct answer', 'err'); return; }
+          correctIds = checked.map(c => String.fromCharCode(97 + parseInt(c.value)));
+        } else {
+          const correct = document.querySelector('#mcq-options .opt-radio:checked')?.value;
+          console.log('Single mode correct:', correct);
+          if (correct === undefined || correct === null || correct === '') { toast('Select the correct option', 'err'); return; }
+          correctIds = [String.fromCharCode(97 + parseInt(correct))];
+        }
+
+        if (!opts.every(o => o)) { toast('Fill all option texts', 'err'); return; }
+
+        payload.options = { options: opts.map((t, i) => ({ id: String.fromCharCode(97 + i), text: t })) };
+        payload.correct_options = correctIds;
+        payload.is_multi_correct = isMulti;
+      }
+      else if (CUR_QTYPE === 'coding') {
+        payload.description = document.getElementById('q-desc').value;
+        payload.input_format = document.getElementById('q-input-fmt').value;
+        payload.output_format = document.getElementById('q-output-fmt').value;
+        payload.constraints = document.getElementById('q-constraints').value;
+        payload.time_limit_ms = parseInt(document.getElementById('q-time').value) || 2000;
+        payload.memory_limit_mb = parseInt(document.getElementById('q-mem').value) || 256;
+        payload.test_cases = [...document.querySelectorAll('.tc-row')].map(r => ({
+          input: r.querySelector('.tc-in').value,
+          expected_output: r.querySelector('.tc-out').value,
+          is_hidden: r.querySelector('.tc-hidden').checked,
+        }));
+      }
+      else if (CUR_QTYPE === 'one_word' || CUR_QTYPE === 'short_answer') {
+        payload.expected_answer = document.getElementById('q-expected').value;
+      }
+      else if (CUR_QTYPE === 'true_false') {
+        payload.expected_answer = document.getElementById('q-tf').value;
+      }
+      else if (CUR_QTYPE === 'match_following') {
+        const lefts = [...document.querySelectorAll('.match-l')].map(i => i.value);
+        const rights = [...document.querySelectorAll('.match-r')].map(i => i.value);
+        payload.left_items = lefts.map((t, i) => ({ id: String(i + 1), text: t }));
+        payload.right_items = rights.map((t, i) => ({ id: String.fromCharCode(65 + i), text: t }));
+        payload.correct_pairs = lefts.map((_, i) => ({ left: String(i + 1), right: String.fromCharCode(65 + i) }));
+      }
+
+      try {
+        await api('/teacher/add-question', 'POST', payload);
+        ADDED_QS.push({ type: CUR_QTYPE, title, marks });
+        ALL_QUESTIONS.push({ type: CUR_QTYPE, title, marks, exam_id: CUR_EXAM_ID });
+        renderAddedQs();
+        // Reset question form
+        document.getElementById('q-title').value = '';
+        document.getElementById('q-marks').value = '1';
+        toast('Question added ✓', 'ok');
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    function renderAddedQs() {
+      const el = document.getElementById('q-added-list');
+      document.getElementById('q-count-label').textContent = `${ADDED_QS.length} question${ADDED_QS.length !== 1 ? 's' : ''} added`;
+      if (!ADDED_QS.length) {
+        el.innerHTML = `<div class="empty" style="padding:30px 10px"><div class="empty-icon">📋</div><p>No questions yet</p></div>`;
+        return;
+      }
+      el.innerHTML = ADDED_QS.map((q, i) => `
+    <div class="qb-item">
+      <div>
+        <div class="qb-type">${q.type.replace('_', ' ')}</div>
+        <div class="qb-text">${q.title.slice(0, 60)}${q.title.length > 60 ? '…' : ''}</div>
+        <div class="qb-marks">${q.marks} mark${q.marks !== 1 ? 's' : ''}</div>
+      </div>
+      <button class="opt-del" onclick="ADDED_QS.splice(${i},1);renderAddedQs()">×</button>
+    </div>`).join('');
+    }
+
+    function toggleMCQMode() {
+      const isMulti = document.getElementById('mcq-multi').checked;
+      document.querySelectorAll('#mcq-options .opt-radio').forEach((inp, idx) => {
+        inp.type = isMulti ? 'checkbox' : 'radio';
+        // CRITICAL: each checkbox must have a UNIQUE name to be independently selectable
+        inp.name = isMulti ? `mcq-correct-multi-${idx}` : 'mcq-correct';
+        inp.className = isMulti ? 'opt-radio opt-multi' : 'opt-radio opt-single';
+        inp.checked = false;
+      });
+    }
+    // ═══════════════════════════════════
+    // STEP 3 — REVIEW
+    // ═══════════════════════════════════
+    function buildReview() {
+      const d = CUR_EXAM_DETAILS || {};
+      const title = d.title || document.getElementById('ex-title').value || '—';
+      const branch = d.branch || document.getElementById('ex-branch').value || '—';
+      const section = d.section || document.getElementById('ex-section').value || '—';
+      const start = d.start || document.getElementById('ex-start').value || '';
+      const end = d.end || document.getElementById('ex-end').value || '';
+      const marks = d.marks || document.getElementById('ex-marks').value || '—';
+      const type = d.type || document.getElementById('ex-type').value || '—';
+
+      // Convert ISO to datetime-local format for input fields
+      function toLocal(iso) {
+        if (!iso) return '';
+        try { return new Date(iso).toISOString().slice(0, 16); }
+        catch (_) { return iso.slice(0, 16); }
+      }
+
+      document.getElementById('review-content').innerHTML = `
+    <div class="fg" style="margin-bottom:20px">
+      <div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Title</div><strong>${title}</strong></div>
+      <div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Target</div>${branch} · Section ${section}</div>
+      <div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Type</div><span class="badge ${type === 'real' ? 'b-real' : 'b-practice'}">${type}</span></div>
+      <div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Total Marks</div>${marks}</div>
+    </div>
+
+    <!-- Editable timing section -->
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);margin-bottom:14px">⏰ Exam Timing — Edit if needed</div>
+      <div class="fg">
+        <div class="field">
+          <label>Start Time</label>
+          <input type="datetime-local" id="review-start" value="${toLocal(start)}"
+            style="width:100%;padding:10px 13px;background:var(--surfacek);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--font-b);font-size:13px;outline:none"/>
+        </div>
+        <div class="field">
+          <label>End Time</label>
+          <input type="datetime-local" id="review-end" value="${toLocal(end)}"
+            style="width:100%;padding:10px 13px;background:var(--surfacek);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--font-b);font-size:13px;outline:none"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="sh">Questions (${ADDED_QS.length})</div>
+    ${ADDED_QS.length ? ADDED_QS.map((q, i) => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface2);border-radius:var(--r-sm);margin-bottom:8px">
+        <span style="font-size:11px;color:var(--muted);width:20px">${i + 1}.</span>
+        <span class="badge b-upcoming" style="flex-shrink:0">${q.type.replace('_', ' ')}</span>
+        <span style="flex:1;font-size:13px">${q.title.slice(0, 80)}</span>
+        <span style="font-size:12px;color:var(--muted)">${q.marks}m</span>
+      </div>`).join('')
+          : `<div class="empty" style="padding:20px"><p>⚠️ No questions added yet. Go back and add questions.</p></div>`}`;
+    }
+    async function saveExamDraft() {
+      toast('Exam saved as draft', 'info');
+      await loadAll();
+      go('exams');
+    }
+
+    async function publishExam() {
+      if (!CUR_EXAM_ID) { toast('No exam to publish', 'err'); return; }
+
+      // Update timing if changed on review page
+      const newStart = document.getElementById('review-start')?.value;
+      const newEnd = document.getElementById('review-end')?.value;
+
+      if (newStart && newEnd) {
+        if (new Date(newEnd) <= new Date(newStart)) {
+          toast('End time must be after start time', 'err'); return;
+        }
+        try {
+          await api(`/teacher/update-exam-time/${CUR_EXAM_ID}`, 'PATCH', {
+            start_time: new Date(newStart).toISOString(),
+            end_time: new Date(newEnd).toISOString(),
+          });
+        } catch (_) {
+          // If update fails, still proceed to publish
+        }
+      }
+
+      await publishExamById(CUR_EXAM_ID);
+    }
+
+    async function publishExamById(examId) {
+      try {
+        await api(`/teacher/publish-exam/${examId}`, 'POST');
+        toast('🚀 Exam published! Students can now see it.', 'ok');
+        await loadAll();
+        go('exams');
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    async function resumeDraft(examId, examCode) {
+      CUR_EXAM_ID = examId;
+      CUR_EXAM_CODE = examCode;
+      ADDED_QS = [];
+
+      // Load exam details from MY_EXAMS for review page
+      const exam = MY_EXAMS.find(e => e.exam_id === examId);
+      if (exam) {
+        CUR_EXAM_DETAILS = {
+          title: exam.title,
+          branch: exam.target_branch,
+          section: exam.target_section,
+          start: exam.start_time,
+          end: exam.end_time,
+          marks: exam.total_marks,
+          type: exam.exam_type,
+        };
+      }
+
+      // Load existing questions from DB so the list shows what's already added
+      try {
+        const d = await api(`/teacher/questions/${examId}`);
+        ADDED_QS = (d.questions || []).map(q => ({
+          type: q.question_type,
+          title: q.title,
+          marks: q.marks,
+        }));
+      } catch (_) { }
+
+      // Go directly to Step 2 (question builder) — skip Step 1
+      // Navigate without triggering initCreate
+      document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.nav').forEach(n => n.classList.remove('on'));
+      document.getElementById('pg-create').classList.add('on');
+      document.getElementById('n-create').classList.add('on');
+      showStep(2);
+      renderAddedQs();
+      toast(`Resumed: ${examCode} — ${ADDED_QS.length} questions already added`, 'info');
+    }
+
+    // ═══════════════════════════════════
+    // QUESTION BANK
+    // ═══════════════════════════════════
+    async function renderQBank(filter) {
+      const el = document.getElementById('qbank-list');
+      el.innerHTML = '<div class="spin"></div>';
+      try {
+        // Aggregate all questions from all exams
+        if (!ALL_QUESTIONS.length) {
+          for (const e of MY_EXAMS) {
+            try {
+              const d = await api(`/teacher/questions/${e.exam_id}`);
+              (d.questions || []).forEach(q => { q._exam = e.title; ALL_QUESTIONS.push(q); });
+            } catch (_) { }
+          }
+        }
+        const filtered = filter === 'all' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.question_type === filter || q.type === filter);
+        if (!filtered.length) {
+          el.innerHTML = `<div class="empty"><div class="empty-icon">🗂</div><p>No questions found.</p></div>`; return;
+        }
+        el.innerHTML = filtered.map(q => `
+      <div class="qb-item">
+        <div>
+          <div class="qb-type">${(q.question_type || q.type || '').replace('_', ' ')} ${q._exam ? `· <span style="color:var(--muted)">${q._exam}</span>` : ''}</div>
+          <div class="qb-text">${q.title}</div>
+          <div class="qb-marks">${q.marks} mark${q.marks !== 1 ? 's' : ''}</div>
+        </div>
+      </div>`).join('');
+      } catch (e) { el.innerHTML = `<div class="empty"><p>${e.message}</p></div>`; }
+    }
+
+    function filterQBank(f, btn) {
+      document.querySelectorAll('#qb-filters .qtab').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      renderQBank(f);
+    }
+
+    function openQBank() {
+      const el = document.getElementById('m-qbank-body');
+      el.innerHTML = ALL_QUESTIONS.length
+        ? ALL_QUESTIONS.map((q, i) => `
+        <div class="qb-item" style="cursor:pointer" onclick="reuseQ(${i})">
+          <div>
+            <div class="qb-type">${(q.question_type || q.type || '').replace('_', ' ')}</div>
+            <div class="qb-text">${q.title}</div>
+            <div class="qb-marks">${q.marks}m</div>
+          </div>
+          <button class="btn btn-purple btn-sm">Use</button>
+        </div>`).join('')
+        : '<div class="empty"><p>Question bank is empty.</p></div>';
+      openModal('m-qbank');
+    }
+
+    async function reuseQ(idx) {
+      if (!CUR_EXAM_ID) { toast('Create exam details first', 'err'); closeModal('m-qbank'); return; }
+      const q = ALL_QUESTIONS[idx];
+      try {
+        await api('/teacher/add-question', 'POST', {
+          exam_id: CUR_EXAM_ID,
+          question_type: q.question_type || q.type,
+          title: q.title, marks: q.marks, order_index: ADDED_QS.length,
+        });
+        ADDED_QS.push({ type: q.question_type || q.type, title: q.title, marks: q.marks });
+        renderAddedQs();
+        toast('Question reused ✓', 'ok');
+        closeModal('m-qbank');
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ═══════════════════════════════════
+    // EVALUATE
+    // ═══════════════════════════════════
+    async function renderEvalPage() {
+      const el = document.getElementById('eval-exam-list');
+      el.innerHTML = '<div class="spin"></div>';
+      try {
+        if (!MY_EXAMS.length) { el.innerHTML = `<div class="empty"><p>No exams yet.</p></div>`; return; }
+        el.innerHTML = `<div class="tbl-wrap"><table>
+      <thead><tr><th>Exam</th><th>Branch/Section</th><th>Status</th><th>Total Subs</th><th>Pending</th><th>Action</th></tr></thead>
+      <tbody>${MY_EXAMS.map(e => `<tr>
+        <td><strong>${e.title}</strong></td>
+        <td>${e.target_branch} · ${e.target_section}</td>
+        <td>${statusBadge(examStatus(e))}</td>
+        <td>${e.submission_count || 0}</td>
+        <td><span style="color:var(--yellow)">${e.pending_eval || 0}</span></td>
+        <td><button class="btn btn-purple btn-sm" onclick="viewSubmissions('${e.exam_id}','${e.title}')">View Submissions</button></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+      } catch (e) { el.innerHTML = `<div class="empty"><p>${e.message}</p></div>`; }
+    }
+
+    async function viewSubmissions(examId, examTitle) {
+      // Inline render below the table
+      const el = document.getElementById('eval-exam-list');
+      const existing = document.getElementById('subs-detail');
+      if (existing) existing.remove();
+
+      const div = document.createElement('div'); div.id = 'subs-detail';
+      div.innerHTML = '<div class="spin"></div>';
+      el.after(div);
+
+      try {
+        const d = await api(`/teacher/submissions/${examId}`);
+        const subs = d || [];
+        if (!subs.length) { div.innerHTML = `<div class="empty"><p>No submissions for this exam yet.</p></div>`; return; }
+
+        div.innerHTML = `
+      <div class="sh" style="margin-top:24px">Submissions — ${examTitle}</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Student</th><th>Submitted At</th><th>Status</th><th>Marks</th><th>Action</th></tr></thead>
+        <tbody>${subs.map(s => `<tr>
+          <td><strong>${s.student_name}</strong></td>
+          <td style="color:var(--muted);font-size:12px">${s.submitted_at ? fmt(s.submitted_at) : '—'}</td>
+          <td><span class="badge ${s.status === 'evaluated' ? 'b-done' : 'b-pending'}">${s.status}</span></td>
+          <td>${s.marks != null ? s.marks : '—'}</td>
+          <td><button class="btn btn-purple btn-sm" onclick="openEval('${s.submission_id}','${s.student_name}')">Evaluate</button></td>
+        </tr>`).join('')}</tbody>
+      </table></div>`;
+      } catch (e) { div.innerHTML = `<div class="empty"><p>${e.message}</p></div>`; }
+    }
+
+    async function openEval(subId, studentName) {
+      EVAL_SUB_ID = subId; EVAL_ANSWERS = {};
+      document.getElementById('m-sub-title').textContent = `Evaluate: ${studentName}`;
+      document.getElementById('m-sub-name').textContent = `Submission ID: ${subId}`;
+      document.getElementById('m-sub-body').innerHTML = '<div class="spin"></div>';
+      openModal('m-submission');
+
+      try {
+        const d = await api(`/teacher/submission-detail/${subId}`);
+        const answers = d.answers || [];
+        if (!answers.length) {
+          document.getElementById('m-sub-body').innerHTML = '<div class="empty"><p>No answers found.</p></div>'; return;
+        }
+        document.getElementById('m-sub-body').innerHTML = `
+      <div class="eval-answers">
+        ${answers.map(a => `
+          <div class="ans-block">
+            <div class="ans-q">Q: ${a.question_title || 'Question'} <span style="float:right;color:var(--muted)">${a.max_marks} marks</span></div>
+            <div class="ans-text">${JSON.stringify(a.answer_data)}</div>
+            <div class="ans-marks">
+              <label style="font-size:12px;color:var(--muted)">Marks:</label>
+              <input class="marks-input" type="number" min="0" max="${a.max_marks}" step="0.5"
+                value="${a.marks_awarded || ''}" placeholder="0"
+                oninput="EVAL_ANSWERS['${a.question_id}']=parseFloat(this.value)||0"/>
+              <span style="font-size:12px;color:var(--muted)">/ ${a.max_marks}</span>
+            </div>
+          </div>`).join('')}
+      </div>`;
+      } catch (e) { document.getElementById('m-sub-body').innerHTML = `<p style="color:var(--red)">${e.message}</p>`; }
+    }
+
+    async function saveEval() {
+      if (!EVAL_SUB_ID) { toast('No submission selected', 'err'); return; }
+      const totalMarks = Object.values(EVAL_ANSWERS).reduce((s, m) => s + m, 0);
+      try {
+        await api('/teacher/evaluate', 'POST', null);
+        // Call evaluate with marks
+        await fetch(`${BASE}/teacher/evaluate?submission_id=${EVAL_SUB_ID}&marks=${totalMarks}`, {
+          method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN }
+        });
+        toast('Evaluation saved ✓', 'ok');
+        closeModal('m-submission');
+        await loadAll();
+      } catch (e) { toast(e.message, 'err'); }
+    }
+
+    // ═══════════════════════════════════
+    // ANALYTICS
+    // ═══════════════════════════════════
+    async function renderAnalytics() {
+      const el = document.getElementById('analytics-content');
+      el.innerHTML = '<div class="spin"></div>';
+      try {
+        if (!MY_EXAMS.length) { el.innerHTML = `<div class="empty"><div class="empty-icon">📊</div><p>No exams yet.</p></div>`; return; }
+
+        const examStats = MY_EXAMS.map(e => ({
+          title: e.title, subs: e.submission_count || 0, pending: e.pending_eval || 0
+        }));
+        const maxSubs = Math.max(...examStats.map(e => e.subs), 1);
+
+        el.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div class="an-title" style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:16px;color:var(--muted2)">Submissions per Exam</div>
+          ${examStats.map(e => `
+            <div class="bar-row">
+              <div class="bar-label" title="${e.title}">${e.title}</div>
+              <div class="bar-track"><div class="bar-fill" style="width:${(e.subs / maxSubs) * 100}%"></div></div>
+              <div class="bar-val">${e.subs}</div>
+            </div>`).join('')}
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:16px;color:var(--muted2)">Exam Overview</div>
+          ${[
+            { l: 'Total Exams', v: MY_EXAMS.length, c: 'var(--accent)' },
+            { l: 'Published', v: MY_EXAMS.filter(e => e.is_published).length, c: 'var(--green)' },
+            { l: 'Draft', v: MY_EXAMS.filter(e => !e.is_published).length, c: 'var(--yellow)' },
+            { l: 'Total Subs', v: MY_EXAMS.reduce((s, e) => s + (e.submission_count || 0), 0), c: 'var(--purple)' },
+            { l: 'Pending Eval', v: MY_EXAMS.reduce((s, e) => s + (e.pending_eval || 0), 0), c: 'var(--red)' },
+          ].map(b => `
+            <div class="bar-row">
+              <div class="bar-label">${b.l}</div>
+              <div class="bar-track"><div class="bar-fill" style="width:${MY_EXAMS.length ? Math.min(b.v / MY_EXAMS.length * 100, 100) : 0}%;background:${b.c}"></div></div>
+              <div class="bar-val">${b.v}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+      } catch (e) { el.innerHTML = `<div class="empty"><p>${e.message}</p></div>`; }
+    }
+  </script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import httpx
 
-from ai_engine import ai
+from backend.ai_engine import ai
 
 router = APIRouter(tags=["Execution"])
 
